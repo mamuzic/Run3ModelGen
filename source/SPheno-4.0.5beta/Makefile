@@ -9,7 +9,9 @@ F90 = gfortran
 # F90 = ifort
 Model = src
 version = 400.00
+BUILD_DIR = $(abspath ${CMAKE_BINARY_DIR})
 bin/SPheno:
+	mkdir -p ${BUILD_DIR}/bin ${BUILD_DIR}/lib ${BUILD_DIR}/include
 	cd ${Model} ; ${MAKE} F90=${F90} version=${version}
 clean:
 	rm -f *.o *~ */*.o */*~
