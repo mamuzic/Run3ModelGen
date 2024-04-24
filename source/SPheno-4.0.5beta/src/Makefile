@@ -1,9 +1,11 @@
 # PreDef = -DGENERATIONMIXING  -DONLYDOUBLE -DSEESAWIII
 PreDef = -DGENERATIONMIXING  -DONLYDOUBLE
 # setting various paths
-InDir = ../include
+# Specify the build directory
+BUILD_DIR = $(abspath ${CMAKE_BINARY_DIR})
+InDir = $(BUILD_DIR)/include
 Mdir = ${InDir}
-name = ../lib/libSPheno.a
+name = $(BUILD_DIR)/lib/libSPheno.a
 
 #
 # options for various compilers
@@ -46,9 +48,12 @@ ifeq (${F90},nagfor)
 endif
  
 .SUFFIXES : .o .ps .f90 .F90 .a
-bin/SPheno: ${name} SPheno4.o
-	${F90} -o SPheno ${LFlagsB} SPheno4.o ../lib/${name}
-	mv SPheno ../bin
+bin/SPheno: 
+	echo "src LVL BUILD_DIR:" ${BUILD_DIR}
+	mkdir $(BUILD_DIR)/bin $(BUILD_DIR)/lib $(BUILD_DIR)/include
+	${name} SPheno4.o
+	${F90} -o SPheno ${LFlagsB} SPheno4.o $(BUILD_DIR)/lib/${name}
+	mv SPheno $(BUILD_DIR)/bin
 ${name}: ${name}(Control.o)  ${name}(Mathematics.o)  ${name}(RGEs.o)       \
     ${name}(MathematicsQP.o)  ${name}(LoopFunctions.o) ${name}(StandardModel.o) \
   ${name}(Model_Data.o) ${name}(Couplings.o)  ${name}(SusyMasses.o) \
