@@ -10,3 +10,15 @@ Draft repo for updated shiny pMSSM model generation.
 - [ ] Update software content
 - [ ] Make compatible with GAMBIT scanners
 - [ ] Improve overall readability & Useability
+
+## Installation:
+
+Usual ATLAS stuff:
+
+```bash
+mkdir build; cd build
+setupATLAS
+asetup AnalyisBase,25.2.5
+cmake ../source
+make
+```
