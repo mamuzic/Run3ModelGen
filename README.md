@@ -9,3 +9,4 @@ Draft repo for updated shiny pMSSM model generation.
 - [ ] Add CI
 - [ ] Update software content
 - [ ] Make compatible with GAMBIT scanners
+- [ ] Improve overall readability & Useability
