@@ -18,7 +18,8 @@ Usual ATLAS stuff:
 ```bash
 mkdir build; cd build
 setupATLAS
-asetup AnalyisBase,25.2.5
+asetup AnalysisBase,25.2.5
 cmake ../source
 make
+source x86_64-el9-gcc13-opt/setup.sh
 ```
