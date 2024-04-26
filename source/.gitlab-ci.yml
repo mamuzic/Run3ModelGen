@@ -1,0 +1,28 @@
+stages:
+  - build
+  
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+build_locally:
+  stage: build
+  image: gitlab-registry.cern.ch/atlas/athena/analysisbase:25.2.5
+  tags:
+    - cvmfs
+  script: 
+    - mkdir build; cd build
+    - source /home/atlas/release_setup.sh
+    - cmake ../source
+    - make
+    - source "${AnalysisBase_PLATFORM}/setup.sh"
+
+# build_image:
+#   stage: build
+#   image:
+#     name: gitlab-registry.cern.ch/ci-tools/docker-image-builder
+#     entrypoint: [""]
+#   script:
+#     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+#     - /kaniko/executor --context "${CI_PROJECT_DIR}"
+#                        --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+#                        --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA}"
