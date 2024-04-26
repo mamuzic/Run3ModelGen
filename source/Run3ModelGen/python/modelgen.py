@@ -4,29 +4,30 @@ np.random.seed(123)
 import os
 datadir = os.environ['DATAPATH'].split(':')[0]
 
-import Run3ModelGen.pyslha as pyslha
+import pyslha
 
 class ModelGenerator:
     '''Class for Model Generation.'''
-    def __init__(self, config_file: str = f"{datadir}/default_config.yaml", num_models: int = 100) -> None:
+    def __init__(self, config_file: str = f"{datadir}/default_config.yaml") -> None:
         '''Initialise scan.'''
         self.config_file = config_file
-        self.config_dict = self.read_yaml_file(self.config_file)
-        self.num_models = num_models
         self.points = {}
         
+        # Add all keys in condig_dict as attributes:
+        for key, value in self.read_yaml_file(self.config_file).items():
+            setattr(self, key, value)
+        
         # Set up directories for saving scan:
-        os.system('rm -r scan')
+        os.system(f"rm -r {self.scan_dir}")
+        os.mkdir(self.scan_dir)
         
-        self.input_dir = 'scan/inputs'
-        self.SPheno_dir = 'scan/SPheno'
-        self.SPheno_log_dir = 'scan/SPheno_log'
+        for step in self.steps:
+            try: os.mkdir(f"{self.scan_dir}/{step['output_dir']}")
+            except: ""
+            try: os.mkdir(f"{self.scan_dir}/{step['log_dir']}")
+            except: ""
         
-        os.makedirs(self.input_dir)
-        os.makedirs(self.SPheno_dir)
-        os.makedirs(self.SPheno_log_dir)
-        
-        print(f"Initialised ModelGenerator with:\n config_file: {self.config_file}\n config_dict: {self.config_dict}\n num_models: {self.num_models}\n")
+        print(f"Initialised ModelGenerator with vars:\n {vars(self)}\n")
 
         return None
     
@@ -40,13 +41,13 @@ class ModelGenerator:
     def sample_flat(self) -> None:
         '''Function for sampling parameters defined in config_dict ranges.'''
         
-        for key, scanrange in self.config_dict['parameters'].items():
+        for key, scanrange in self.parameters.items():
             print(f"Key: {key}, scanrange: {scanrange}")
             self.points[key] = np.random.uniform(scanrange[0], scanrange[1], self.num_models)
             
         return None
             
-    def prep_input(self, modelnum: int) -> str:
+    def prep_input(self, modelnum: int, output_dir: str) -> str:
         '''Prep input. Returns the filename of the prepped file.'''
         
         rawfile = pyslha.read(f"{datadir}/raw.slha", ignorenomass = True)
@@ -76,14 +77,43 @@ class ModelGenerator:
         rawfile.blocks['EXTPAR'][48] = self.points['mdR'][modelnum] # msR := mdR
         rawfile.blocks['EXTPAR'][49] = self.points['mbR'][modelnum]
         
-        preppedfile = f"{self.input_dir}/{modelnum}.slha" 
+        preppedfile = f"{self.scan_dir}/{output_dir}/{modelnum}.slha" 
         pyslha.write(preppedfile, rawfile)
         
         return preppedfile
     
-    def run_SPheno(self, infile: str, outfile: str, logfile: str) -> None:
+    def run_SPheno(self, modelnum: int, input_dir: str, output_dir: str, log_dir: str) -> None:
         '''Run SPheno.'''
         
+        infile = f"{input_dir}/{modelnum}.slha"
+        outfile = f"{output_dir}/{modelnum}.slha"
+        logfile = f"{log_dir}/{modelnum}.log"
+        
         os.system(f"SPheno {infile} {outfile} &> {logfile}")
+        
+        return None
+    
+    def generate_models(self) -> None:
+        '''Main function to generate models.'''
+        
+        print(f"Will run with these steps: {self.steps}")
+        
+        if self.prior == 'flat':
+            self.sample_flat()
+        else:
+            raise ValueError(f"ERROR: prior {self.prior} not supported. Can only be flat.")
+        
+        for mod in range(self.num_models):
+            print(f"\n\nGenerating Model: {mod}\n")
+            
+            for step in self.steps:
+                print(f"running step: {step['name']}")
+                
+                if "input" in step['name']:
+                    self.prep_input(modelnum=mod, output_dir=step['output_dir'])
+                elif "SPheno" in step['name']:
+                    self.run_SPheno(modelnum=mod, input_dir=step['input_dir'], output_dir=step['output_dir'], log_dir=step['log_dir'])
+                else:
+                    raise ValueError(f"ERROR: step name {step['name']} not supported!")
         
         return None

@@ -1,3 +1,6 @@
+scan_dir: scan
+prior: flat
+num_models: 10
 parameters:
   tanb: [1, 60]
   M_1: [-2000, 2000]
@@ -18,3 +21,10 @@ parameters:
   mtR: [4000, 4000]
   mdR: [4000, 4000]
   mbR: [4000, 4000]
+steps:
+  - name: prep_input
+    output_dir: input
+  - name: SPheno
+    input_dir: input
+    output_dir: SPheno
+    log_dir: SPheno_log

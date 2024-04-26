@@ -8,21 +8,9 @@ def main():
     # parser.add_argument('--config', default='scan_config.yaml', help='Yaml file containing scan configuration')
     # args = parser.parse_args()
 
-    # ModelGen = ModelGenerator(args.config, 10)
-    ModelGen = ModelGenerator(num_models=10)
+    ModelGen = ModelGenerator()
     
-    ModelGen.sample_flat()
-    
-    print(ModelGen.points)
-    print(ModelGen.points['meR'])
-    
-    for i in range(ModelGen.num_models):
-        infile = ModelGen.prep_input(modelnum=i)
-    
-        ModelGen.run_SPheno(infile=infile,
-                            outfile=f"{ModelGen.SPheno_dir}/{i}.slha",
-                            logfile=f"{ModelGen.SPheno_log_dir}/{i}.log"
-                            )
+    ModelGen.generate_models()
     
     print("This Test is tested!")
 
