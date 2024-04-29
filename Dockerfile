@@ -22,7 +22,7 @@ RUN source source/setup.sh && \
     mkdir build && cd build && \
     cmake ../source && \
     make && \
-    source setup.sh && \
+    source setup.sh
 
 # Add atlas user to root group (needed to avoid permissions issues when writing files on the local machine)
 # RUN source ~/release_setup.sh && sudo usermod -aG root atlas
