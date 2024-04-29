@@ -24,3 +24,16 @@ cmake ../source
 make
 source x86_64-el9-gcc13-opt/setup.sh
 ```
+
+NEW:
+
+```bash
+source source/setup.sh
+mkdir build; cd build
+cmake ../source
+make
+source setup.sh
+```
+
+Env notes:
+`source source/setup.sh` sets: `source /cvmfs/sft.cern.ch/lcg/views/LCG_105/x86_64-el9-gcc13-opt/setup.sh`

@@ -6,15 +6,16 @@ variables:
 
 build_locally:
   stage: build
-  image: gitlab-registry.cern.ch/atlas/athena/analysisbase:25.2.5
+  # image: gitlab-registry.cern.ch/atlas/athena/analysisbase:25.2.5
+  # image: gitlab-registry.cern.ch/sft/docker:lcg-gcc13
   tags:
     - cvmfs
-  script: 
+  script:
+    - source /cvmfs/sft.cern.ch/lcg/views/LCG_105/x86_64-el9-gcc13-opt/setup.sh
     - mkdir build; cd build
-    - source /home/atlas/release_setup.sh
     - cmake ../source
     - make
-    - source "${AnalysisBase_PLATFORM}/setup.sh"
+    - source setup.sh
 
 # build_image:
 #   stage: build
