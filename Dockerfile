@@ -18,6 +18,7 @@ WORKDIR /workdir/
 RUN mkdir build && cd build && \
     cmake ../source && \
     make && \
+    ls && \
     source setup.sh
 
 # Add atlas user to root group (needed to avoid permissions issues when writing files on the local machine)

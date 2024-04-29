@@ -46,4 +46,4 @@ trap - ERR
 echo 'export PATH="'${build_dir}'/Run3ModelGen:$PATH"' >> $build_dir/setup.sh
 echo 'export PATH="'${source_dir}'/Run3ModelGen/scripts:$PATH"' >> $build_dir/setup.sh
 echo 'export PYTHONPATH="'${build_dir}':$PYTHONPATH"' >> $build_dir/setup.sh
-echo 'export DATAPATH="'${source_dir}/data':$DATAPATH"' >> $build_dir/setup.sh
+echo 'export DATAPATH="'${source_dir}/Run3ModelGen/data':$DATAPATH"' >> $build_dir/setup.sh
