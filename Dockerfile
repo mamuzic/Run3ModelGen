@@ -1,6 +1,7 @@
 # Specify the image from which you are working
-# FROM gitlab-registry.cern.ch/sft/docker/alma9-core
-FROM gitlab-registry.cern.ch/sft/release/el9:LCG_105
+# FROM gitlab-registry.cern.ch/sft/docker/alma9-core:latest
+# FROM gitlab-registry.cern.ch/sft/release/el9:LCG_105
+FROM gitlab-registry.cern.ch/sft/docker:lcg-el9
 
 # Put the current repo (the one in which this Dockerfile resides) in the directory specified here
 # Note that this directory is created on the fly and does not need to reside in the repo already
