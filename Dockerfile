@@ -19,7 +19,7 @@ WORKDIR /workdir/
 #     cmake ../source && \
 #     make
 RUN source source/setup.sh && \
-    mkdir build; cd build && \
+    mkdir build && cd build && \
     cmake ../source && \
     make && \
     source setup.sh && \
