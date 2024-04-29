@@ -6,24 +6,23 @@ variables:
 
 build_locally:
   stage: build
-  # image: gitlab-registry.cern.ch/atlas/athena/analysisbase:25.2.5
   image: gitlab-registry.cern.ch/sft/docker/alma9-core
   tags:
     - cvmfs
   script:
-    - source /cvmfs/sft.cern.ch/lcg/views/LCG_105/x86_64-el9-gcc13-opt/setup.sh
+    - source source/setup.sh
     - mkdir build; cd build
     - cmake ../source
     - make
     - source setup.sh
 
-# build_image:
-#   stage: build
-#   image:
-#     name: gitlab-registry.cern.ch/ci-tools/docker-image-builder
-#     entrypoint: [""]
-#   script:
-#     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-#     - /kaniko/executor --context "${CI_PROJECT_DIR}"
-#                        --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-#                        --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA}"
+build_image:
+  stage: build
+  image:
+    name: gitlab-registry.cern.ch/ci-tools/docker-image-builder
+    entrypoint: [""]
+  script:
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context "${CI_PROJECT_DIR}"
+                       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+                       --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA}"
