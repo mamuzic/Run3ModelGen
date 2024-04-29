@@ -1,7 +1,7 @@
 # Main CMakeLists.txt for the Run3ModelGen project
 
 # Mandatory setting for minimal CMake requirement:
-cmake_minimum_required( VERSION 3.21 )
+cmake_minimum_required( VERSION 3.20 )
 
 # Create a project:
 project( Run3ModelGen VERSION 25.2 )
