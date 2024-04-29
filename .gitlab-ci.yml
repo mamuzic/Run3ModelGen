@@ -7,7 +7,7 @@ variables:
 build_locally:
   stage: build
   # image: gitlab-registry.cern.ch/atlas/athena/analysisbase:25.2.5
-  image: gitlab-registry.cern.ch/sft/docker:lcg-gcc13
+  image: gitlab-registry.cern.ch/sft/docker/alma9-core
   tags:
     - cvmfs
   script:
