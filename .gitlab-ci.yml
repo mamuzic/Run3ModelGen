@@ -7,8 +7,8 @@ variables:
 build_locally:
   stage: build
   image: gitlab-registry.cern.ch/linuxsupport/alma9-base
-  tags:
-    - cvmfs
+  # tags:
+  #   - cvmfs
   script:
     - curl -fsSL https://pixi.sh/install.sh | bash
     - . ~/.bash_profile 
@@ -24,7 +24,7 @@ build_locally:
     - pixi run which c++
     - pixi run cmake ../source
     - pixi run make
-    - source setup.sh
+    - pixi run source setup.sh
     - pixi run genModels.py
 
 build_image:

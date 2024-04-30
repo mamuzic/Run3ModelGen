@@ -29,7 +29,8 @@ RUN curl -fsSL https://pixi.sh/install.sh | bash && \
     pixi run which c++ && \
     pixi run cmake ../source && \
     pixi run make && \
-    source setup.sh && \
+    ls && \
+    pixi run source setup.sh && \
     pixi run genModels.py
 
 # Add atlas user to root group (needed to avoid permissions issues when writing files on the local machine)
