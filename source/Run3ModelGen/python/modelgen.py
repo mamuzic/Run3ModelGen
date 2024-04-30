@@ -22,10 +22,10 @@ class ModelGenerator:
         os.mkdir(self.scan_dir)
         
         for step in self.steps:
-            try: os.mkdir(f"{self.scan_dir}/{step['output_dir']}")
-            except: ""
-            try: os.mkdir(f"{self.scan_dir}/{step['log_dir']}")
-            except: ""
+            print(step)
+            dirns = ['output_dir', 'log_dir']
+            for dirn in dirns:
+                if dirn in step: os.mkdir(f"{self.scan_dir}/{step[dirn]}")
         
         print(f"Initialised ModelGenerator with vars:\n {vars(self)}\n")
 
@@ -85,9 +85,9 @@ class ModelGenerator:
     def run_SPheno(self, modelnum: int, input_dir: str, output_dir: str, log_dir: str) -> None:
         '''Run SPheno.'''
         
-        infile = f"{input_dir}/{modelnum}.slha"
-        outfile = f"{output_dir}/{modelnum}.slha"
-        logfile = f"{log_dir}/{modelnum}.log"
+        infile = f"{self.scan_dir}/{input_dir}/{modelnum}.slha"
+        outfile = f"{self.scan_dir}/{output_dir}/{modelnum}.slha"
+        logfile = f"{self.scan_dir}/{log_dir}/{modelnum}.log"
         
         os.system(f"SPheno {infile} {outfile} &> {logfile}")
         
