@@ -13,7 +13,7 @@ WORKDIR /workdir/
 # Create a run directory
 # RUN sudo mkdir /Tutorial/run
 
-# Edit shell so we can source
+# Set default shell to bash:
 SHELL ["/bin/bash", "-c"]
 
 # Install Run3ModelGen
@@ -36,6 +36,9 @@ RUN curl -fsSL https://pixi.sh/install.sh | bash && \
     # pixi run source setup.sh && \
     source setup.sh && \
     pixi run genModels.py
+
+CMD ["/bin/bash", "-c", "pixi shell"]
+CMD ["/bin/bash", "-c", "source setup.sh"]
 
 # Add atlas user to root group (needed to avoid permissions issues when writing files on the local machine)
 # RUN source ~/release_setup.sh && sudo usermod -aG root atlas
