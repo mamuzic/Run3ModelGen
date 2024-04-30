@@ -6,23 +6,25 @@ variables:
 
 build_locally:
   stage: build
-  image: gitlab-registry.cern.ch/sft/docker/alma9-core
+  image: gitlab-registry.cern.ch/linuxsupport/alma9-base
   tags:
     - cvmfs
   script:
-    - source source/setup.sh
+    - curl -fsSL https://pixi.sh/install.sh | bash
+    - . ~/.bash_profile 
+    - pixi shell
     - mkdir build; cd build
     - cmake ../source
     - make
     - source setup.sh
 
-build_image:
-  stage: build
-  image:
-    name: gitlab-registry.cern.ch/ci-tools/docker-image-builder
-    entrypoint: [""]
-  script:
-    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context "${CI_PROJECT_DIR}"
-                       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-                       --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA}"
+# build_image:
+#   stage: build
+#   image:
+#     name: gitlab-registry.cern.ch/ci-tools/docker-image-builder
+#     entrypoint: [""]
+#   script:
+#     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+#     - /kaniko/executor --context "${CI_PROJECT_DIR}"
+#                        --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+#                        --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}-${CI_COMMIT_SHORT_SHA}"
