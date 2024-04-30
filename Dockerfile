@@ -17,12 +17,11 @@ WORKDIR /workdir/
 SHELL ["/bin/bash", "-c"]
 
 # Install Run3ModelGen
-# RUN source source/setup.sh && \
 RUN curl -fsSL https://pixi.sh/install.sh | bash && \
     . ~/.bash_profile  && \
-    # pixi shell -> Is there a way to make this work?
     pwd && \
     ls  && \
+    mkdir run && \
     mkdir build; cd build && \
     pixi list && \
     pixi run python --version && \
@@ -32,11 +31,10 @@ RUN curl -fsSL https://pixi.sh/install.sh | bash && \
     pixi run cmake ../source && \
     pixi run make && \
     ls && \
-    # pixi run source setup.sh && \
     source setup.sh && \
     pixi run genModels.py
 
-CMD ["/bin/bash", "-c", ". ~/.bash_profile && source build/setup.sh && pixi shell"]
+CMD ["/bin/bash", "-c", ". ~/.bash_profile && source build/setup.sh && cd run && pixi shell"]
 
 # Add atlas user to root group (needed to avoid permissions issues when writing files on the local machine)
 # RUN source ~/release_setup.sh && sudo usermod -aG root atlas
