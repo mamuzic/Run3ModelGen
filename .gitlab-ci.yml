@@ -16,6 +16,7 @@ build_locally:
     - pwd
     - ls
     - mkdir build; cd build
+    - pixi list
     - pixi run cmake ../source
     - pixi run make
     - source setup.sh
