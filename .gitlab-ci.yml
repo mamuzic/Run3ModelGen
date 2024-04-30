@@ -13,6 +13,8 @@ build_locally:
     - curl -fsSL https://pixi.sh/install.sh | bash
     - . ~/.bash_profile 
     # - pixi shell
+    - pwd
+    - ls
     - mkdir build; cd build
     - pixi run cmake ../source
     - pixi run make
