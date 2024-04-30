@@ -43,7 +43,8 @@ ln -s $source_dir/Run3ModelGen/python/* $build_dir/Run3ModelGen/ 2>/dev/null
 trap - ERR
 
 # Manipulating env vars: PATH, PYTHONPATH and DATAPATH
-echo 'export PATH="'${build_dir}'/Run3ModelGen:$PATH"' >> $build_dir/setup.sh
+# echo 'export PATH="'${build_dir}'/Run3ModelGen:$PATH"' >> $build_dir/setup.sh
 echo 'export PATH="'${source_dir}'/Run3ModelGen/scripts:$PATH"' >> $build_dir/setup.sh
+echo 'export PATH="'${build_dir}'/SPheno-4.0.5beta/bin:$PATH"' >> $build_dir/setup.sh
 echo 'export PYTHONPATH="'${build_dir}':$PYTHONPATH"' >> $build_dir/setup.sh
 echo 'export DATAPATH="'${source_dir}/Run3ModelGen/data':$DATAPATH"' >> $build_dir/setup.sh
