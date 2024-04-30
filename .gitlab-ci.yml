@@ -19,6 +19,12 @@ build_locally:
     - pixi list
     - pixi run python --version
     - pixi run python ../test.py
+    - which gcc
+    - which cc
+    - which c++
+    - pixi run which gcc
+    - pixi run which cc
+    - pixi run which c++
     - pixi run "cmake ../source"
     - pixi run make
     - source setup.sh
