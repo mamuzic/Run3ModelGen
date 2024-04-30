@@ -24,7 +24,7 @@ build_locally:
     - pixi run which c++
     - pixi run cmake ../source
     - pixi run make
-    - pixi run source setup.sh
+    - source setup.sh
     - pixi run genModels.py
 
 build_image:
