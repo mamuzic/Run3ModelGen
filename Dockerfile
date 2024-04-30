@@ -13,6 +13,9 @@ WORKDIR /workdir/
 # Create a run directory
 # RUN sudo mkdir /Tutorial/run
 
+# Edit shell so we can source
+SHELL ["/bin/bash", "-c"]
+
 # Install Run3ModelGen
 # RUN source source/setup.sh && \
 RUN curl -fsSL https://pixi.sh/install.sh | bash && \
