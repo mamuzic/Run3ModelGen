@@ -1,6 +1,4 @@
 # Specify the image from which you are working
-# FROM gitlab-registry.cern.ch/sft/docker/alma9-core:latest
-# FROM gitlab-registry.cern.ch/sft/release/el9:LCG_105
 FROM gitlab-registry.cern.ch/linuxsupport/alma9-base:latest
 
 # Put the current repo (the one in which this Dockerfile resides) in the directory specified here
@@ -10,10 +8,7 @@ ADD . /workdir
 # Go into the directory specified here (again, it will create the directory if it doesn't already exist)
 WORKDIR /workdir/
 
-# Create a run directory
-# RUN sudo mkdir /Tutorial/run
-
-# Set default shell to bash:
+# Set default shell to bash
 SHELL ["/bin/bash", "-c"]
 
 # Install Run3ModelGen
@@ -34,7 +29,5 @@ RUN curl -fsSL https://pixi.sh/install.sh | bash && \
     source setup.sh && \
     pixi run genModels.py
 
+# Define commands to be run when entering container
 CMD ["/bin/bash", "-c", ". ~/.bash_profile && source build/setup.sh && cd run && pixi shell"]
-
-# Add atlas user to root group (needed to avoid permissions issues when writing files on the local machine)
-# RUN source ~/release_setup.sh && sudo usermod -aG root atlas
