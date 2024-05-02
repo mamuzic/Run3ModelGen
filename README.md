@@ -42,7 +42,7 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
 
 - [x] Script to run flat scan & save output models
 - [x] Docker images of framework
-- [ ] Ntuple making
+- [x] Ntuple making
 - [ ] Model selection for factory
 - [ ] HTCondor support for larger parallel scans (using Docker?!)
 - [ ] Support for non-alma9 machines (e.g. MacOS)
