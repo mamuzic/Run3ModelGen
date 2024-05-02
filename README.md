@@ -1,8 +1,23 @@
-# Run3ModelGen
+# Run3ModelGen <!-- omit in toc -->
 
 Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be fully independent of HTCondor & lxplus as well as being fully Dockerised.
 
-## Targets
+# Table of Contents <!-- omit in toc -->
+
+- [Targets](#targets)
+  - [Software content](#software-content)
+  - [Functionalities](#functionalities)
+- [Installation](#installation)
+  - [pixi](#pixi)
+  - [Run3ModelGen](#run3modelgen)
+- [On startup](#on-startup)
+- [Running](#running)
+  - [Changing the scan configuration](#changing-the-scan-configuration)
+- [FAQ](#faq)
+  - [pixi](#pixi-1)
+  - [More](#more)
+
+# Targets
 - [x] Move from shell scripts to Makefile structure for building
 - [x] migrate to alma9
 - [x] Dockerise
@@ -12,7 +27,7 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
 - [ ] Improve overall readability & Useability
 - [x] Make venv to not clutter the user's local AB python -> solved with pixi!
 
-### Software content
+## Software content
 
 | Software | Run 2 Version | Implemented | Latest Version | Implemented |
 | - | - | - | - | - |
@@ -23,7 +38,7 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
 | GM2Calc | 2.0.0 | &#x274c; | 2.2.0 | &#x274c; |
 | micrOMEGAs | 5.2.1 | &#x274c; | 6.0 | &#x274c; |
 
-### Functionalities
+## Functionalities
 
 - [x] Script to run flat scan & save output models
 - [x] Docker images of framework
@@ -32,9 +47,9 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
 - [ ] HTCondor support for larger parallel scans (using Docker?!)
 - [ ] Support for non-alma9 machines (e.g. MacOS)
 
-## Installation
+# Installation
 
-### pixi
+## pixi
 
 This repo uses [pixi](https://pixi.sh/latest/) to manage packages, compilers, etc. Hopefully this will only make things easier for you as a user, but it does require installing pixi locally before we can compile the Run3ModelGen code. To install pixi, do:
 
@@ -45,7 +60,7 @@ curl -fsSL https://pixi.sh/install.sh | bash
 
 Please note that since pixi edits your `.bash_profile` automatically, it should be set up correctly on your next login.
 
-### Run3ModelGen
+## Run3ModelGen
 
 Having installed pixi, we can use the `pixi.toml` and `pixi.lock` files to start a shell with the correct environment and install the Run3ModelGen:
 
@@ -57,7 +72,7 @@ make
 source setup.sh
 ```
 
-## On startup
+# On startup
 
 As perviously mentioned, pixi should be ready to use as per your `.bash_profile`, so there is no need to do anything here. 
 For settup up the Run3ModelGen, please simply execute:
