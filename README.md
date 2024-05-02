@@ -23,6 +23,7 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
 - [x] Dockerise
 - [x] Add CI
 - [ ] Update software content
+- [ ] Add missing functionalities
 - [ ] Make compatible with GAMBIT scanners
 - [ ] Improve overall readability & Useability
 - [x] Make venv to not clutter the user's local AB python -> solved with pixi!
@@ -148,6 +149,7 @@ steps:
 If you wish to edit the pixi package content, you can either edit the `pixi.toml` file directly, or use (some of) these handy commands which I used to initiate the repo:
 
 ```bash
+# Install pixi & initialise
 curl -fsSL https://pixi.sh/install.sh | bash
 . ~/.bash_profile 
 pixi init .
