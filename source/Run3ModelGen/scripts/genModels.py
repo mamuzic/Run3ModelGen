@@ -3,16 +3,16 @@
 from Run3ModelGen.modelgen import ModelGenerator
 
 def main():
-    # from argparse import ArgumentParser
-    # parser = ArgumentParser()
-    # parser.add_argument('--config', default='scan_config.yaml', help='Yaml file containing scan configuration')
-    # args = parser.parse_args()
+    from argparse import ArgumentParser
+    parser = ArgumentParser()
+    parser.add_argument('--config', default=None, help='Yaml file containing scan configuration')
+    args = parser.parse_args()
 
-    ModelGen = ModelGenerator()
+    # If config file is not provided, use default for initiating ModelGenerator
+    ModelGen = ModelGenerator(args.config)
     
+    # Generate models and save them according to the config yaml
     ModelGen.generate_models()
-    
-    print("This Test is tested!")
 
 if __name__ == "__main__":
     main()
