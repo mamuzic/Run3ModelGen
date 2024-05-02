@@ -1,10 +1,5 @@
 # Run3ModelGen
 
-MARK
-![](source/Run3ModelGen/data/default_config.yaml)
-
-MARK
-
 Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be fully independent of HTCondor & lxplus as well as being fully Dockerised.
 
 ## Targets
@@ -75,10 +70,56 @@ And you're good to go!
 
 # Running
 
-The main script for generating models is [genModels.py](https://gitlab.cern.ch/jwuerzin/Run3ModelGen/-/blob/main/source/Run3ModelGen/scripts/genModels.py?ref_type=heads). If you set everything up correctly, this can simply be executed with:
+The main script for generating models is [genModels.py](https://gitlab.cern.ch/jwuerzin/Run3ModelGen/-/blob/main/source/Run3ModelGen/scripts/genModels.py?ref_type=heads). If you set everything up correctly, this can simply be executed with
 
 ```bash
 genModels.py
+```
+
+## Changing the scan configuration
+
+If you would like to change the scan configuration, simply run
+
+```bash
+genModels.py --config myconfig.yaml
+```
+
+where `myconfig.yaml` is your config file containing the scan configuration. If no config file is supplied, the [default config file](source/Run3ModelGen/data/default_config.yaml) will be read. All values that are missing from `myconfig.yaml` are read from the default as well.
+
+Here the contents of this default configuration:
+
+```yaml
+scan_dir: scan
+prior: flat
+num_models: 10
+seed: 123
+parameters:
+  tanb: [1, 60]
+  M_1: [-2000, 2000]
+  M_2: [-2000, 2000]
+  M_3: [4000, 4000]
+  AT: [-8000, 8000]
+  Ab: [-2000, 2000]
+  Atau: [-2000, 2000]
+  mu: [-2000, 2000]
+  mA: [2000, 2000]
+  meL: [0, 2000]
+  mtauL: [2000, 2000]
+  meR: [0, 2000]
+  mtauR: [2000, 2000]
+  mqL1: [4000, 4000]
+  mqL3: [4000, 4000]
+  muR: [4000, 4000]
+  mtR: [4000, 4000]
+  mdR: [4000, 4000]
+  mbR: [4000, 4000]
+steps:
+  - name: prep_input
+    output_dir: input
+  - name: SPheno
+    input_dir: input
+    output_dir: SPheno
+    log_dir: SPheno_log
 ```
 
 # FAQ
