@@ -6,7 +6,7 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
 .install_pixi:
-  script:
+  before_script:
     # fetch and install pixi locally
     - curl -fsSL https://pixi.sh/install.sh | bash
     - . ~/.bash_profile 
