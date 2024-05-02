@@ -78,4 +78,36 @@ genModels.py
 
 # FAQ
 
-Will follow soon. In the meantime, if you have any questions at all, please contact jonas.wuerzinger@cern.ch.
+## pixi
+
+If you wish to edit the pixi package content, you can either edit the `pixi.toml` file directly, or use (some of) these handy commands which I used to initiate the repo:
+
+```bash
+curl -fsSL https://pixi.sh/install.sh | bash
+. ~/.bash_profile 
+pixi init .
+
+# general dependencies
+time pixi add 'python=3.11'
+time pixi add gfortran
+time pixi add cc
+time pixi add gcc
+time pixi add cxx-compiler
+time pixi add cmake
+time pixi add make
+time pixi add which
+
+# python packages on conda
+time pixi add numpy
+time pixi add pyyaml
+time pixi add pyslha
+
+# start shell
+pixi shell
+```
+
+Please refrain from editing the `pixi.lock` file directly!
+
+## More
+
+More will follow soon. In the meantime, if you have any questions at all, please contact jonas.wuerzinger@cern.ch.
