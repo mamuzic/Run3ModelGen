@@ -2,6 +2,7 @@ scan_dir: scan
 prior: flat
 num_models: 10
 seed: 123
+isGMSB: False
 parameters:
   tanb: [1, 60]
   M_1: [-2000, 2000]

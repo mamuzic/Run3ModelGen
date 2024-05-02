@@ -1,9 +1,13 @@
+'''Module for ModelGenerator class'''
+
 import yaml
 import numpy as np
 import os
 datadir = os.environ['DATAPATH'].split(':')[0]
 
 import pyslha
+
+from Run3ModelGen.ntupling import mkntuple
 
 class ModelGenerator:
     '''Class for Model Generation.'''
@@ -42,16 +46,6 @@ class ModelGenerator:
                 for step in varval: print(f"\t\t{step}")
             else:
                 print(f"\t{var} = {varval}")
-
-        # Set up directories for saving scan
-        print(f"Setting up output directories for scan...\n")
-        os.system(f"rm -r {self.scan_dir}")
-        os.mkdir(self.scan_dir)
-        
-        for step in self.steps:
-            dirns = ['output_dir', 'log_dir']
-            for dirn in dirns:
-                if dirn in step: os.mkdir(f"{self.scan_dir}/{step[dirn]}")
 
         return None
     
@@ -119,7 +113,17 @@ class ModelGenerator:
     def generate_models(self) -> None:
         '''Main function to generate models.'''
         
-        print(f"Starting Model Generation")
+        print(f"Starting Model Generation...")
+        
+        # Set up directories for saving scan
+        print(f"Setting up output directories for scan\n")
+        os.system(f"rm -r {self.scan_dir}")
+        os.mkdir(self.scan_dir)
+        
+        for step in self.steps:
+            dirns = ['output_dir', 'log_dir']
+            for dirn in dirns:
+                if dirn in step: os.mkdir(f"{self.scan_dir}/{step[dirn]}")
         
         if self.prior == 'flat':
             self.sample_flat()
@@ -141,3 +145,8 @@ class ModelGenerator:
         print("\nFinished generating models!")
         
         return None
+    
+    def mkntuple(self) -> None:
+        '''Promote ntuple making to class attribute.'''
+        
+        return mkntuple(self.scan_dir, self.num_models, self.isGMSB)

@@ -85,11 +85,13 @@ And you're good to go!
 
 # Running
 
-The main script for generating models is [genModels.py](https://gitlab.cern.ch/jwuerzin/Run3ModelGen/-/blob/main/source/Run3ModelGen/scripts/genModels.py?ref_type=heads). If you set everything up correctly, this can simply be executed with
+The main script for generating models is [genModels.py](https://gitlab.cern.ch/jwuerzin/Run3ModelGen/-/blob/main/source/Run3ModelGen/scripts/genModels.py?ref_type=heads). If you set everything up correctly, this can simply be executed with:
 
 ```bash
 genModels.py
 ```
+
+The script will save the created model files and the corresponding root ntuple.
 
 ## Changing the scan configuration
 
@@ -108,6 +110,7 @@ scan_dir: scan
 prior: flat
 num_models: 10
 seed: 123
+isGMSB: False
 parameters:
   tanb: [1, 60]
   M_1: [-2000, 2000]

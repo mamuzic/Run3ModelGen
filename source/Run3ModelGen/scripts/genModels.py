@@ -13,6 +13,9 @@ def main():
     
     # Generate models and save them according to the config yaml
     ModelGen.generate_models()
+    
+    # Make NTuple
+    ModelGen.mkntuple()
 
 if __name__ == "__main__":
     main()
