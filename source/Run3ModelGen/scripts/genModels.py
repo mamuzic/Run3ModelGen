@@ -5,13 +5,13 @@ from Run3ModelGen.modelgen import ModelGenerator
 def main():
     from argparse import ArgumentParser
     parser = ArgumentParser()
-    parser.add_argument('--config', default=None, help='Yaml file containing scan configuration')
+    parser.add_argument('--config', default=None, help='Yaml file containing scan configuration. If no config is provided, will read from the default.')
     args = parser.parse_args()
 
     # If config file is not provided, use default for initiating ModelGenerator
     ModelGen = ModelGenerator(args.config)
     
-    # Generate models and save them according to the config yaml
+    # Generate models and save them according to the config yaml. Note: This automatically overwrites the scan directory.
     ModelGen.generate_models()
     
     # Make NTuple
