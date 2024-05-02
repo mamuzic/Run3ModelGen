@@ -1,6 +1,6 @@
 [project]
 name = "Run3ModelGen"
-version = "0.1.0"
+version = "0.1.1"
 description = "Add a short description here"
 authors = ["Jonas Wuerzinger <jonas.wuerzinger@gmail.com>"]
 channels = ["conda-forge"]
