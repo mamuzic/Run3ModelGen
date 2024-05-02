@@ -1,5 +1,10 @@
 # Run3ModelGen
 
+MARK
+![](source/Run3ModelGen/data/default_config.yaml)
+
+MARK
+
 Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be fully independent of HTCondor & lxplus as well as being fully Dockerised.
 
 ## Targets
