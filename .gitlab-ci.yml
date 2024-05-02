@@ -5,13 +5,17 @@ stages:
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
-build_local:
-  stage: build
-  image: gitlab-registry.cern.ch/linuxsupport/alma9-base
+.intall_pixi:
   script:
     # fetch and install pixi locally
     - curl -fsSL https://pixi.sh/install.sh | bash
     - . ~/.bash_profile 
+
+build_local:
+  extends: .install_pixi
+  stage: build
+  image: gitlab-registry.cern.ch/linuxsupport/alma9-base
+  script:
     # run small pixi tests
     - pixi list
     - pixi run python --version
@@ -29,15 +33,13 @@ build_local:
     expire_in: 1 week
     paths:
       - build/ 
-      - /root/.pixi/bin
-      - ~/.bash_profile
 
 test_genModels:
+  extends: .install_pixi
   stage: test
   dependencies:
     - build_local
   script:
-    - . ~/.bash_profile 
     - pixi list
     - ls
     - pwd
