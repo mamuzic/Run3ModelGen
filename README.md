@@ -57,6 +57,8 @@ make
 source setup.sh
 ```
 
+Please note that currently only single-code building is working. I'll need to fix this..
+
 ## On startup
 
 As perviously mentioned, pixi should be ready to use as per your `.bash_profile`, so there is no need to do anything here. 
