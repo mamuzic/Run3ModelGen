@@ -4,7 +4,7 @@
 cmake_minimum_required( VERSION 3.20 )
 
 # Create a project
-project( Run3ModelGen VERSION 25.2 )
+project( Run3ModelGen )
 
 # Add subdirectories
 add_subdirectory( SPheno-4.0.5beta )
