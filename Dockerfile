@@ -17,7 +17,6 @@ RUN curl -fsSL https://pixi.sh/install.sh | bash && \
     pwd && \
     ls  && \
     mkdir run && \
-    mkdir build; cd build && \
     pixi list && \
     pixi run python --version && \
     pixi run which gcc && \
