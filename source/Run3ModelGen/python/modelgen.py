@@ -142,6 +142,12 @@ class ModelGenerator:
                     self.run_SPheno(modelnum=mod, input_dir=step['input_dir'], output_dir=step['output_dir'], log_dir=step['log_dir'])
                 else:
                     raise ValueError(f"ERROR: step name {step['name']} not supported!")
+         
+        # Dump scan config in scan_dir
+        with open(f"{self.scan_dir}/scan_config.yaml", "w") as file:
+            skipkeys = ['points']
+            dumpdict = {key: value for key, value in vars(self).items() if key not in skipkeys}
+            yaml.dump(dumpdict, file, default_flow_style=None, encoding=None)
                 
         print("\nFinished generating models!")
         
