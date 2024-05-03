@@ -22,8 +22,7 @@ RUN curl -fsSL https://pixi.sh/install.sh | bash && \
     pixi run which gcc && \
     pixi run which cc && \
     pixi run which c++ && \
-    pixi run cmake -S source -B build && \
-    pixi run cmake --build build -j8 && \
+    pixi run build && \
     ls
 
 # Define commands to be run when entering container
