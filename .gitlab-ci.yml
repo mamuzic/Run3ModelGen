@@ -24,11 +24,8 @@ build_local:
     - pixi run which c++
     # build project
     - mkdir build; cd build
-    - pixi run cmake ../source
-    - pixi run make
-    # small local test (move to later stage)
-    # - source setup.sh
-    # - pixi run genModels.py
+    - pixi run cmake -S source -B build
+    - pixi run cmake --build build
   artifacts:
     expire_in: 1 week
     paths:

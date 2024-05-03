@@ -69,9 +69,9 @@ Having installed pixi, we can use the `pixi.toml` and `pixi.lock` files to start
 ```bash
 pixi shell
 mkdir build; cd build
-cmake ../source
-make
-source setup.sh
+cmake -S source -B build
+cmake --build build
+source build/setup.sh
 ```
 
 # On startup
