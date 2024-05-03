@@ -1,7 +1,7 @@
 stages:
   - build
   - test
-  
+
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
@@ -9,7 +9,7 @@ variables:
   before_script:
     # fetch and install pixi locally
     - curl -fsSL https://pixi.sh/install.sh | bash
-    - . ~/.bash_profile 
+    - . ~/.bash_profile
 
 build_local:
   extends: .install_pixi
@@ -28,7 +28,7 @@ build_local:
   artifacts:
     expire_in: 1 week
     paths:
-      - build/ 
+      - build/
 
 test_genModels:
   extends: .install_pixi
@@ -48,24 +48,29 @@ test_genModels:
 build_docker:
   stage: build
   image:
-    name: gitlab-registry.cern.ch/ci-tools/docker-image-builder
+    name: gcr.io/kaniko-project/executor:v1.14.0-debug
     entrypoint: [""]
   script:
+    # Prepare Kaniko configuration file
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    # Build and push the image
     - |
       # If pipeline runs on the default branch (main): Set tag to "latest"
       if test "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH"; then
         add=""
         tag="latest"
       # If pipeline is a tag pipeline, set tag to the git commit tag
-      elif test -n "$CI_COMMIT_TAG"; then
+      elif test -n "${CI_COMMIT_TAG}"; then
         add=""
-        tag="$CI_COMMIT_TAG"
+        tag="${CI_COMMIT_TAG}"
       # Else set the tag to the branch name and git commit sha
       else
-        add="-$CI_COMMIT_REF_NAME"
-        tag="$CI_COMMIT_SHORT_SHA"
+        add="${CI_COMMIT_REF_SLUG}"
+        tag="-${CI_COMMIT_SHORT_SHA}"
       fi
-    - /kaniko/executor --context "${CI_PROJECT_DIR}"
-                       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-                       --destination "${CI_REGISTRY_IMAGE}${add}:${tag}"
+      IMAGE_DESTINATION=${CI_REGISTRY_IMAGE}:${add}${tag}
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${IMAGE_DESTINATION}"
+    - echo "Image pushed successfully to ${IMAGE_DESTINATION}"
