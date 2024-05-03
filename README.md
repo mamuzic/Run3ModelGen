@@ -15,6 +15,7 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
   - [Changing the scan configuration](#changing-the-scan-configuration)
 - [FAQ](#faq)
   - [pixi](#pixi-1)
+  - [Gaps in the scan ranges](#gaps-in-the-scan-ranges)
   - [More](#more)
 
 # Targets
@@ -173,6 +174,18 @@ pixi shell
 ```
 
 Please refrain from editing the `pixi.lock` file directly!
+
+## Gaps in the scan ranges
+
+If you'd like to run with gaps in the scan ranges, this is fully supported. Simply provide the scan ranges as a list containing the subranges, e.g.:
+```yaml
+...
+parameters:
+  tanb: [1, 60]
+  M_1: [-2000, 2000]
+  M_2: [[-3000, -1000], [-1000, 800], [1000, 3000]]
+...
+```
 
 ## More
 
