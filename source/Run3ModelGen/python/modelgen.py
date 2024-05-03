@@ -11,7 +11,7 @@ from Run3ModelGen.ntupling import mkntuple
 
 class ModelGenerator:
     '''Class for Model Generation.'''
-    def __init__(self, config_file: str = None) -> None:
+    def __init__(self, config_file: str = None, seed: int = 123) -> None:
         '''Initialise scan.'''
         
         # Print logo. Note: ASCII art generated with https://patorjk.com/software/taag/ (Small, Fitted)
@@ -20,6 +20,7 @@ class ModelGenerator:
         print("\n"+logo+"\n")
         
         self.config_file = config_file
+        self.seed = seed
         self.points = {}
         
         # Add all keys in config_file as attributes. Replace attribute by default if not provided

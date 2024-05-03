@@ -97,10 +97,10 @@ The script will save the created model files and the corresponding root ntuple.
 
 ## Changing the scan configuration
 
-If you would like to change the scan configuration, simply run
+If you would like to change the scan configuration or seed, simply run
 
 ```bash
-genModels.py --config myconfig.yaml
+genModels.py --config myconfig.yaml --seed 42 
 ```
 
 where `myconfig.yaml` is your config file containing the scan configuration. If no config file is supplied, the [default config file](source/Run3ModelGen/data/default_config.yaml) will be read. All values that are missing from `myconfig.yaml` are read from the default as well.
@@ -111,7 +111,6 @@ Here the contents of this default configuration:
 scan_dir: scan
 prior: flat
 num_models: 10
-seed: 123
 isGMSB: False
 parameters:
   tanb: [1, 60]

@@ -6,10 +6,11 @@ def main():
     from argparse import ArgumentParser
     parser = ArgumentParser()
     parser.add_argument('--config', default=None, help='Yaml file containing scan configuration. If no config is provided, will read from the default.')
+    parser.add_argument('--seed', default=123, type=int, help='Seed for np random number generation.')
     args = parser.parse_args()
 
     # If config file is not provided, use default for initiating ModelGenerator
-    ModelGen = ModelGenerator(args.config)
+    ModelGen = ModelGenerator(args.config, args.seed)
     
     # Generate models and save them according to the config yaml. Note: This automatically overwrites the scan directory.
     ModelGen.generate_models()
