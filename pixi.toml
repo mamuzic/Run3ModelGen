@@ -4,7 +4,7 @@ version = "0.3.0"
 description = "Add a short description here"
 authors = ["Jonas Wuerzinger <jonas.wuerzinger@gmail.com>"]
 channels = ["conda-forge"]
-platforms = ["linux-64"]
+platforms = ["linux-64", "osx-64", "osx-arm64"]
 
 [tasks]
 
@@ -14,7 +14,6 @@ gfortran = ">=13.2.0,<13.3"
 cmake = ">=3.29.2,<3.30"
 numpy = ">=1.26.4,<1.27"
 pyyaml = ">=6.0.1,<6.1"
-cxx-compiler = ">=1.0.0,<1.1"
 make = ">=4.3,<5"
 which = ">=2.21,<3"
 automake = ">=1.16.5,<1.17"
@@ -22,6 +21,10 @@ uproot = ">=5.3.4,<5.4"
 rich = ">=13.7.1,<13.8"
 structlog = ">=24.1.0,<24.2"
 click = ">=8.1.7,<8.2"
+
+[target.linux-64.dependencies]
+gcc = ">=13.2.0,<13.3"
+cxx-compiler = ">=1.0.0,<1.1"
 
 [pypi-dependencies]
 pyslha = ">=3.2.6"
