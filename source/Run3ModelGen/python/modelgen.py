@@ -61,7 +61,40 @@ class ModelGenerator:
         '''Function for sampling parameters defined in config_dict ranges.'''
         
         for key, scanrange in self.parameters.items():
-            self.points[key] = np.random.uniform(scanrange[0], scanrange[1], self.num_models)
+            
+            # Check if the provided range is interrupted
+            if type(scanrange[0]) == list:
+                weights = []
+                dist = 0
+                
+                # Loop over ranges to get weights for numbers of models
+                for subrange in scanrange:
+                    if type(subrange) != list: raise ValueError(f"Provided scanrange for parameter {key} is not supported!")
+                    weights.append((subrange[1]-subrange[0]))
+                    dist += subrange[1]-subrange[0]
+
+                weights = [weight/dist for weight in weights]
+                
+                # Generate random points according to weights and append result in one np array
+                # Making sure that overall number of models matches
+                points_left = self.num_models
+                points = np.array([])
+                list_numpoints = []
+                for i in range(len(scanrange)):
+                    numpoints = int(self.num_models*weights[i])
+                    if i == len(scanrange)-1: numpoints = points_left
+                    list_numpoints += [numpoints]
+                    
+                    points = np.append(points, np.random.uniform(scanrange[i][0], scanrange[i][1], numpoints))
+                    points_left -= numpoints
+                    
+                self.points[key] = points
+                
+                print(f"Found gap in scanning ranges for parameter {key}. Generated random numbers for subranges with weights:\n", weights)
+                print("Resulting in these numbers of points:\n", list_numpoints, "\n")
+                
+            else:
+                self.points[key] = np.random.uniform(scanrange[0], scanrange[1], self.num_models)
             
         return None
             
