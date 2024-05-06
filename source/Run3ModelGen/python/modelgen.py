@@ -9,15 +9,21 @@ import pyslha
 
 from Run3ModelGen.ntupling import mkntuple
 
+import structlog
+log = structlog.get_logger()
+structlog.stdlib.recreate_defaults()  # so we have logger names
+
 class ModelGenerator:
     '''Class for Model Generation.'''
     def __init__(self, config_file: str = None, seed: int = 123) -> None:
         '''Initialise scan.'''
         
+        print(structlog.get_config()["processors"])
+        
         # Print logo. Note: ASCII art generated with https://patorjk.com/software/taag/ (Small, Fitted)
         with open(f"{datadir}/logo.txt", 'r') as file:
-            logo = file.read()
-        print("\n"+logo+"\n")
+            logo = "\n"+file.read()+"\n"
+        print(logo)
         
         self.config_file = config_file
         self.seed = seed
@@ -37,16 +43,16 @@ class ModelGenerator:
         np.random.seed(self.seed)
         
         # Print information on initialised generator
-        print(f"Initialised ModelGenerator with:")
+        log.info(f"Initialised ModelGenerator with:")
         for var, varval in vars(self).items():
             if var == 'parameters':
-                print(f"\t{var} = ")
-                for param, paramval in varval.items(): print(f"\t\t{param}: {paramval}")
+                log.info(f"\t{var} = ")
+                for param, paramval in varval.items(): log.info(f"\t\t{param}: {paramval}")
             elif var == 'steps':
-                print(f"\t{var} = ")
-                for step in varval: print(f"\t\t{step}")
+                log.info(f"\t{var} = ")
+                for step in varval: log.info(f"\t\t{step}")
             else:
-                print(f"\t{var} = {varval}")
+                log.info(f"\t{var} = {varval}")
 
         return None
     
@@ -90,8 +96,8 @@ class ModelGenerator:
                     
                 self.points[key] = points
                 
-                print(f"Found gap in scanning ranges for parameter {key}. Generated random numbers for subranges with weights:\n", weights)
-                print("Resulting in these numbers of points:\n", list_numpoints, "\n")
+                log.info(f"Found gap in scanning ranges for parameter {key}. Generated random numbers for subranges with weights:", weights=weights)
+                log.info("Resulting in these numbers of points:", list_numpoints=list_numpoints)
                 
             else:
                 self.points[key] = np.random.uniform(scanrange[0], scanrange[1], self.num_models)
@@ -147,10 +153,10 @@ class ModelGenerator:
     def generate_models(self) -> None:
         '''Main function to generate models.'''
         
-        print(f"Starting Model Generation...")
+        log.info(f"Starting Model Generation...")
         
         # Set up directories for saving scan
-        print(f"Setting up output directories for scan\n")
+        log.info(f"Setting up output directories for scan")
         os.system(f"rm -r {self.scan_dir}")
         os.mkdir(self.scan_dir)
         
@@ -165,10 +171,10 @@ class ModelGenerator:
             raise ValueError(f"ERROR: prior {self.prior} not supported. Can only be flat.")
         
         for mod in range(self.num_models):
-            print(f"Generating Model: {mod} out of {self.num_models-1}")
+            log.info(f"Generating Model: {mod} out of {self.num_models-1}")
             
             for step in self.steps:
-                print(f"\trunning step: {step['name']}")
+                log.info(f"\trunning step: {step['name']}")
                 if "input" in step['name']:
                     self.prep_input(modelnum=mod, output_dir=step['output_dir'])
                 elif "SPheno" in step['name']:
@@ -182,7 +188,7 @@ class ModelGenerator:
             dumpdict = {key: value for key, value in vars(self).items() if key not in skipkeys}
             yaml.dump(dumpdict, file, default_flow_style=None, encoding=None)
                 
-        print("\nFinished generating models!")
+        log.info("Finished generating models!")
         
         return None
     

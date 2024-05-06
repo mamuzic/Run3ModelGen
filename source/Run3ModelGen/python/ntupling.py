@@ -7,6 +7,10 @@ import os
 import pyslha
 import numpy as np
 
+import structlog
+log = structlog.get_logger()
+structlog.stdlib.recreate_defaults()  # so we have logger names
+
 softsusy_blocks={
     'MINPAR':  {3: "tanb_min"},
     'EXTPAR':  {
@@ -599,10 +603,10 @@ def readSLHA(name: str, data: dict, prefix: str, blocks: dict, decays: dict, nee
     
     skip=False
     if "problem:" in rawtext:
-        print("problem in", name)
+        log.warning(f"problem in {name}")
         skip=True
     if "-inf" in rawtext:
-        print("-inf ERROR! in", name)
+        log.warning(f"-inf ERROR! in {name}")
         skip=True
         
     foundmassblock = False
@@ -703,7 +707,7 @@ def readSLHA(name: str, data: dict, prefix: str, blocks: dict, decays: dict, nee
     for block,vars in blocks.items():
         try: slha=BLOCKS[block]
         except:
-            print("no",block,"in",name)
+            log.warning(f"no {block} in {name}")
             #SBOT/STOPMIX blocks can be missing if FHss_m_h=NaN in previous iteration. These models are filtered with FHss_m_h!=-1.
             if "softsusy_FH" in name:
                 continue
@@ -713,13 +717,12 @@ def readSLHA(name: str, data: dict, prefix: str, blocks: dict, decays: dict, nee
                 value=slha.entries[var]
                 if type(value)==tuple: value=value[0]
                 if np.isnan(value):
-                    print("Found NaN value for var {} ({}) in block {} for model: {}; Saving -1.".format(vName, var, block, name))
+                    log.warning(f"Found NaN value for var {vName} ({var}) in block {block} for model: {name}; Saving -1.")
                     data[prefix+vName]=-1.
                 else:
                     data[prefix+vName]=value
             except KeyError:
-                if vName == 'm_G' and isGMSB: print('Failed to get',vName,'(',var,') in',block,'for',name)
-   
+                if vName == 'm_G' and isGMSB: log.exception(f"Failed to get {vName} ({var}) in {block} for {name}")
    
     # Now loop over decays
     for part,decay in decays.items():
@@ -830,7 +833,7 @@ def readModel(num: int, scanDir: str, outName: str, isGMSB: bool) -> dict:
 
 def mkntuple(scan_dir: str, num_models: int, isGMSB: bool) -> None:
     '''Function for generating ntuple for directory scan_dir with num_models using uproot.'''
-    print(f"Will make NTuple for: {scan_dir}, with {num_models} models")
+    log.info(f"Will make NTuple for: {scan_dir}, with {num_models} models")
     
     outName = f"{scan_dir}/example.0.0.root"
     file = uproot.recreate(outName)
@@ -838,7 +841,7 @@ def mkntuple(scan_dir: str, num_models: int, isGMSB: bool) -> None:
     treedict = {}
     # Loop over models and keys and treedict accordingly
     for modid in range(num_models):
-        if modid%100==0: print(f"\tFilling values for model: {modid}")
+        if modid%100==0: log.info(f"\tFilling values for model: {modid}")
         
         fileData=readModel(modid, scan_dir, outName, isGMSB)
         
@@ -851,5 +854,5 @@ def mkntuple(scan_dir: str, num_models: int, isGMSB: bool) -> None:
             treedict[key][modid] = value
     
     # Save treedict in file using uproot
-    print(f"Saving NTuple in {outName} ...")
+    log.info(f"Saving NTuple in {outName} ...")
     file["susy"] = treedict

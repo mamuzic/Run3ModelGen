@@ -66,15 +66,21 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/xz-5.2.6-h166bdaf_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/yaml-0.2.5-h7f98852_2.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/zstd-1.5.5-hfc55251_0.conda
-      - pypi: https://files.pythonhosted.org/packages/4f/d8/0ee7016e4e3ba95d22357a72a7e50b7761ca26a019eaf866aea8cc11c97c/awkward-2.6.3-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/12/5a/2262fe5c68ffa90528662abd6502004579651cd94a9d92479ff4f8ba96ed/awkward_cpp-32-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+      - pypi: https://files.pythonhosted.org/packages/0b/4c/9895b6e9630d021f71688164b370862d01df89e33a5b714c982df2131f62/awkward-2.6.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/5d/13/8e224947bf4ec6c87596c1f2c2e05fbd52b44fdb3b27e3ba25a9c01f0c1d/awkward_cpp-33-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+      - pypi: https://files.pythonhosted.org/packages/00/2e/d53fa4befbf2cfa713304affc7ca780ce4fc1fd8710527771b58311a3229/click-8.1.7-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/e5/39/d52bb20463a8bbc12dfe49c8099005c17879fdfc09dc25bb172cc9c4cef9/cramjam-2.8.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/93/6d/66d48b03460768f523da62a57a7e14e5e95fdf339d79e996ce3cecda2cdb/fsspec-2024.3.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/2d/0a/679461c511447ffaf176567d5c496d1de27cbe34a87df6677d7171b2fbd4/importlib_metadata-7.1.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/42/d7/1ec15b46af6af88f19b8e5ffea08fa375d433c998b8a7639e76935c14f1f/markdown_it_py-3.0.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/b3/38/89ba8ad64ae25be8de66a6d463314cf1eb366222074cfda9ee839c56a4b4/mdurl-0.1.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/49/df/1fceb2f8900f8639e278b056416d49134fb8d84c5942ffaa01ad34782422/packaging-24.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/f7/3f/01c8b82017c199075f8f788d0d906b9ffbbc5a47dc9918a945e13d5a2bda/pygments-2.18.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b8/bd/4382ed07946bb0e59738fc9a7b19de415b2c28f6fd94183d56b7d9e16d00/pyslha-3.2.6.tar.gz
+      - pypi: https://files.pythonhosted.org/packages/87/67/a37f6214d0e9fe57f6ae54b2956d550ca8365857f42a1ce0392bb21d9410/rich-13.7.1-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/ae/5c/c22ca8b8715dd625bbdd6bc7ec87395e29940642d8dff213fad1aa8ce84d/structlog-24.1.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/67/67/0b008d2bc93137701145ccb4745ff7c4026804eb6a030e8fab8ec058c43b/tex2pix-0.3.1.tar.gz
-      - pypi: https://files.pythonhosted.org/packages/fd/40/46ac32fb8dec35483b32696a8a35028d8a6f4f8474c053758aa4a6c8b585/uproot-5.3.3-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/06/54/260998d0970b827c69fd7117baa231808ec99f7975e4ea1a3e9297021667/uproot-5.3.4-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/c2/0a/ba9d0ee9536d3ef73a3448e931776e658b36f128d344e175bc32b092a8bf/zipp-3.18.1-py3-none-any.whl
 packages:
 - kind: conda
@@ -108,11 +114,11 @@ packages:
   timestamp: 1650670423406
 - kind: pypi
   name: awkward
-  version: 2.6.3
-  url: https://files.pythonhosted.org/packages/4f/d8/0ee7016e4e3ba95d22357a72a7e50b7761ca26a019eaf866aea8cc11c97c/awkward-2.6.3-py3-none-any.whl
-  sha256: 2a87dccc13de843600f09b16561e689a3cdcdb5d13ebcbb69c80bfa525179cbb
+  version: 2.6.4
+  url: https://files.pythonhosted.org/packages/0b/4c/9895b6e9630d021f71688164b370862d01df89e33a5b714c982df2131f62/awkward-2.6.4-py3-none-any.whl
+  sha256: 5d1650d9bf6a34d23e499f0f6aeae4f0ef3e07dedc4b3a9cd319fc356ba28167
   requires_dist:
-  - awkward-cpp==32
+  - awkward-cpp==33
   - fsspec>=2022.11.0
   - importlib-metadata>=4.13.0 ; python_version < '3.12'
   - numpy>=1.18.0
@@ -121,9 +127,9 @@ packages:
   requires_python: '>=3.8'
 - kind: pypi
   name: awkward-cpp
-  version: '32'
-  url: https://files.pythonhosted.org/packages/12/5a/2262fe5c68ffa90528662abd6502004579651cd94a9d92479ff4f8ba96ed/awkward_cpp-32-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-  sha256: 37decc9a65e81a9e71ce5d90090b669a2aed2c25d689c5d7547f84979cc08cbb
+  version: '33'
+  url: https://files.pythonhosted.org/packages/5d/13/8e224947bf4ec6c87596c1f2c2e05fbd52b44fdb3b27e3ba25a9c01f0c1d/awkward_cpp-33-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+  sha256: b600b3a9dc9fd58d1816c354a71223bc1a96104fb27b7420e3b8b110a3380b52
   requires_dist:
   - numpy>=1.18.0
   - importlib-resources ; python_version < '3.9'
@@ -199,6 +205,15 @@ packages:
   license: ISC
   size: 155432
   timestamp: 1706843687645
+- kind: pypi
+  name: click
+  version: 8.1.7
+  url: https://files.pythonhosted.org/packages/00/2e/d53fa4befbf2cfa713304affc7ca780ce4fc1fd8710527771b58311a3229/click-8.1.7-py3-none-any.whl
+  sha256: ae74fb96c20a0277a1d615f1e4d73c8414f5a98db8b799a7931d1582f3390c28
+  requires_dist:
+  - colorama ; platform_system == 'Windows'
+  - importlib-metadata ; python_version < '3.8'
+  requires_python: '>=3.7'
 - kind: conda
   name: cmake
   version: 3.29.2
@@ -934,6 +949,44 @@ packages:
   license_family: GPL
   size: 518896
   timestamp: 1602706451788
+- kind: pypi
+  name: markdown-it-py
+  version: 3.0.0
+  url: https://files.pythonhosted.org/packages/42/d7/1ec15b46af6af88f19b8e5ffea08fa375d433c998b8a7639e76935c14f1f/markdown_it_py-3.0.0-py3-none-any.whl
+  sha256: 355216845c60bd96232cd8d8c40e8f9765cc86f46880e43a8fd22dc1a1a8cab1
+  requires_dist:
+  - mdurl~=0.1
+  - psutil ; extra == 'benchmarking'
+  - pytest ; extra == 'benchmarking'
+  - pytest-benchmark ; extra == 'benchmarking'
+  - pre-commit~=3.0 ; extra == 'code_style'
+  - commonmark~=0.9 ; extra == 'compare'
+  - markdown~=3.4 ; extra == 'compare'
+  - mistletoe~=1.0 ; extra == 'compare'
+  - mistune~=2.0 ; extra == 'compare'
+  - panflute~=2.3 ; extra == 'compare'
+  - linkify-it-py>=1,<3 ; extra == 'linkify'
+  - mdit-py-plugins ; extra == 'plugins'
+  - gprof2dot ; extra == 'profiling'
+  - mdit-py-plugins ; extra == 'rtd'
+  - myst-parser ; extra == 'rtd'
+  - pyyaml ; extra == 'rtd'
+  - sphinx ; extra == 'rtd'
+  - sphinx-copybutton ; extra == 'rtd'
+  - sphinx-design ; extra == 'rtd'
+  - sphinx-book-theme ; extra == 'rtd'
+  - jupyter-sphinx ; extra == 'rtd'
+  - coverage ; extra == 'testing'
+  - pytest ; extra == 'testing'
+  - pytest-cov ; extra == 'testing'
+  - pytest-regressions ; extra == 'testing'
+  requires_python: '>=3.8'
+- kind: pypi
+  name: mdurl
+  version: 0.1.2
+  url: https://files.pythonhosted.org/packages/b3/38/89ba8ad64ae25be8de66a6d463314cf1eb366222074cfda9ee839c56a4b4/mdurl-0.1.2-py3-none-any.whl
+  sha256: 84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8
+  requires_python: '>=3.7'
 - kind: conda
   name: ncurses
   version: 6.4.20240210
@@ -995,6 +1048,14 @@ packages:
   url: https://files.pythonhosted.org/packages/49/df/1fceb2f8900f8639e278b056416d49134fb8d84c5942ffaa01ad34782422/packaging-24.0-py3-none-any.whl
   sha256: 2ddfb553fdf02fb784c234c7ba6ccc288296ceabec964ad2eae3777778130bc5
   requires_python: '>=3.7'
+- kind: pypi
+  name: pygments
+  version: 2.18.0
+  url: https://files.pythonhosted.org/packages/f7/3f/01c8b82017c199075f8f788d0d906b9ffbbc5a47dc9918a945e13d5a2bda/pygments-2.18.0-py3-none-any.whl
+  sha256: b8e6aca0523f3ab76fee51799c488e38782ac06eafcf95e7ba832985c8e7b13a
+  requires_dist:
+  - colorama>=0.4.6 ; extra == 'windows-terminal'
+  requires_python: '>=3.8'
 - kind: pypi
   name: pyslha
   version: 3.2.6
@@ -1097,6 +1158,40 @@ packages:
   license_family: MIT
   size: 185144
   timestamp: 1693455923632
+- kind: pypi
+  name: rich
+  version: 13.7.1
+  url: https://files.pythonhosted.org/packages/87/67/a37f6214d0e9fe57f6ae54b2956d550ca8365857f42a1ce0392bb21d9410/rich-13.7.1-py3-none-any.whl
+  sha256: 4edbae314f59eb482f54e9e30bf00d33350aaa94f4bfcd4e9e3110e64d0d7222
+  requires_dist:
+  - ipywidgets>=7.5.1,<9 ; extra == 'jupyter'
+  - markdown-it-py>=2.2.0
+  - pygments>=2.13.0,<3.0.0
+  - typing-extensions>=4.0.0,<5.0 ; python_version < '3.9'
+  requires_python: '>=3.7.0'
+- kind: pypi
+  name: structlog
+  version: 24.1.0
+  url: https://files.pythonhosted.org/packages/ae/5c/c22ca8b8715dd625bbdd6bc7ec87395e29940642d8dff213fad1aa8ce84d/structlog-24.1.0-py3-none-any.whl
+  sha256: 3f6efe7d25fab6e86f277713c218044669906537bb717c1807a09d46bca0714d
+  requires_dist:
+  - structlog[tests,typing] ; extra == 'dev'
+  - furo ; extra == 'docs'
+  - myst-parser ; extra == 'docs'
+  - sphinx ; extra == 'docs'
+  - sphinx-notfound-page ; extra == 'docs'
+  - sphinxcontrib-mermaid ; extra == 'docs'
+  - sphinxext-opengraph ; extra == 'docs'
+  - twisted ; extra == 'docs'
+  - freezegun>=0.2.8 ; extra == 'tests'
+  - pretend ; extra == 'tests'
+  - pytest-asyncio>=0.17 ; extra == 'tests'
+  - pytest>=6.0 ; extra == 'tests'
+  - simplejson ; extra == 'tests'
+  - mypy>=1.4 ; extra == 'typing'
+  - rich ; extra == 'typing'
+  - twisted ; extra == 'typing'
+  requires_python: '>=3.8'
 - kind: conda
   name: sysroot_linux-64
   version: '2.12'
@@ -1148,9 +1243,9 @@ packages:
   timestamp: 1706886945727
 - kind: pypi
   name: uproot
-  version: 5.3.3
-  url: https://files.pythonhosted.org/packages/fd/40/46ac32fb8dec35483b32696a8a35028d8a6f4f8474c053758aa4a6c8b585/uproot-5.3.3-py3-none-any.whl
-  sha256: 651b199c11aabf3b1d0249d6c20206445ed98337a7ea6f516b2e9a329ce363bd
+  version: 5.3.4
+  url: https://files.pythonhosted.org/packages/06/54/260998d0970b827c69fd7117baa231808ec99f7975e4ea1a3e9297021667/uproot-5.3.4-py3-none-any.whl
+  sha256: 3cd15263110a06bcce06c69d84fb80c84566a774fc5d6b3006984d1fdcd4e8c0
   requires_dist:
   - awkward>=2.4.6
   - cramjam>=2.5.0

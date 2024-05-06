@@ -22,3 +22,6 @@ which = ">=2.21,<3"
 [pypi-dependencies]
 pyslha = ">=3.2.6"
 uproot = ">=5.3.3"
+rich = ">=13.7.1"
+structlog = ">=24.1.0"
+click = ">=8.1.7"
