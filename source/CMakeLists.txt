@@ -8,12 +8,13 @@ project( Run3ModelGen )
 
 # Add subdirectories
 add_subdirectory( SPheno-4.0.5beta )
+add_subdirectory( micromegas_5.2.1 )
 
 # Add shell script to place all relevant files in build
 add_custom_target( Run3ModelGen
     COMMENT "Building Run3ModelGen"
     COMMAND ${CMAKE_SOURCE_DIR}/cmake_build_env.sh -s ${CMAKE_SOURCE_DIR} -b ${CMAKE_BINARY_DIR}
-    DEPENDS SPheno
+    DEPENDS SPheno micromegas
 )
 
 # make Run3ModelGen the default target for "make"
