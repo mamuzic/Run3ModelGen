@@ -91,7 +91,7 @@ And you're good to go!
 
 # Running
 
-The main script for generating models is [genModels.py](https://gitlab.cern.ch/jwuerzin/Run3ModelGen/-/blob/main/source/Run3ModelGen/scripts/genModels.py?ref_type=heads). If you set everything up correctly, this can simply be executed with:
+The main script for generating models is [genModels.py](source/Run3ModelGen/scripts/genModels.py). If you set everything up correctly, this can simply be executed with:
 
 ```bash
 genModels.py
