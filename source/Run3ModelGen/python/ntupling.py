@@ -11,6 +11,8 @@ import structlog
 log = structlog.get_logger()
 structlog.stdlib.recreate_defaults()  # so we have logger names
 
+import Run3ModelGen.csvReader as csvReader
+
 softsusy_blocks={
     'MINPAR':  {3: "tanb_min"},
     'EXTPAR':  {
@@ -803,7 +805,7 @@ def readModel(num: int, scanDir: str, outName: str, isGMSB: bool) -> dict:
     ("SPheno/", ".slha", "SP_", spheno_blocks, softsusy_decays, True),
     # ("feynhiggs_SP/spheno.out.fh-001","FHsp_",feynhiggs_blocks,softsusy_decays,False),
     # ("spheno_FH/spheno_FH.out","SPfh_",spheno_blocks,softsusy_decays,True),
-    # ("micromegas_values/micromegas.values",""), #if only name, we assume it is a directory of csv file
+    ("micromegas/",".csv", None, None, None, None), #if only name, we assume it is a directory of csv file
     # ("superiso/superiso.out","",superiso_blocks,{},False),
     # ("gm2calc/gm2calc.out","GM2_",gm2calc_blocks,{},False),
     # ("feynhiggs_SP_FHsp/spheno_FH.out.fh-001","FHspfh_",feynhiggs_Wmass_blocks,{},False),
@@ -816,7 +818,7 @@ def readModel(num: int, scanDir: str, outName: str, isGMSB: bool) -> dict:
 
         # read file using csv reader or readSLHA depending on inputDef
         if not os.access(fileName,os.R_OK): continue
-        if len(inputDef)>2: 
+        if inputDef[3] is not None: 
             readSLHA(fileName, data, prefix, blocks, decays, needsMass, isGMSB)
         else: 
             myData=csvReader.read(fileName)
