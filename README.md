@@ -14,8 +14,9 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
 - [Running](#running)
   - [Changing the scan configuration](#changing-the-scan-configuration)
 - [FAQ](#faq)
-  - [pixi](#pixi-1)
+  - [Adding software/updating the software version](#adding-softwareupdating-the-software-version)
   - [Gaps in the scan ranges](#gaps-in-the-scan-ranges)
+  - [pixi](#pixi-1)
   - [More](#more)
 
 # Targets
@@ -146,6 +147,24 @@ steps:
 
 # FAQ
 
+## Adding software/updating the software version
+
+Unfortunately, all software included here uses in-source-builds exclusively. I have taken notes on how I added the different software in this cmake workflow in:
+- [doc/spheno_build](doc/spheno_build.md)
+- [doc/micromegas_build](doc/micromegas_build.md)
+
+## Gaps in the scan ranges
+
+If you'd like to run with gaps in the scan ranges, this is fully supported. Simply provide the scan ranges as a list containing the subranges, e.g.:
+```yaml
+...
+parameters:
+  tanb: [1, 60]
+  M_1: [-2000, 2000]
+  M_2: [[-3000, -1000], [-1000, 800], [1000, 3000]]
+...
+```
+
 ## pixi
 
 If you wish to edit the pixi package content, you can either edit the `pixi.toml` file directly, or use (some of) these handy commands which I used to initiate the repo:
@@ -176,18 +195,6 @@ pixi shell
 ```
 
 Please refrain from editing the `pixi.lock` file directly!
-
-## Gaps in the scan ranges
-
-If you'd like to run with gaps in the scan ranges, this is fully supported. Simply provide the scan ranges as a list containing the subranges, e.g.:
-```yaml
-...
-parameters:
-  tanb: [1, 60]
-  M_1: [-2000, 2000]
-  M_2: [[-3000, -1000], [-1000, 800], [1000, 3000]]
-...
-```
 
 ## More
 
