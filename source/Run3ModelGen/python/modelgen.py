@@ -8,6 +8,7 @@ datadir = os.environ['DATAPATH'].split(':')[0]
 import pyslha
 
 from Run3ModelGen.ntupling import mkntuple
+from Run3ModelGen.microextract import microextract
 
 import structlog
 log = structlog.get_logger()
@@ -150,6 +151,21 @@ class ModelGenerator:
         
         return None
     
+    def run_micromegas(self, modelnum: int, input_dir: str, output_dir: str) -> None:
+        '''Run micromegas.'''
+        
+        infile = f"{self.scan_dir}/{input_dir}/{modelnum}.slha"
+        outfile_raw = f"{self.scan_dir}/{output_dir}_raw/{modelnum}.out"
+        outfile = f"{self.scan_dir}/{output_dir}/{modelnum}.csv"
+        
+        # Run micromegas to get the raw, humanly readable output
+        os.system(f"main {infile} > {outfile_raw}")
+        
+        # Extract values into outfile
+        microextract(infilen = outfile_raw, outfilen = outfile)
+        
+        return None
+    
     def generate_models(self) -> None:
         '''Main function to generate models.'''
         
@@ -164,6 +180,7 @@ class ModelGenerator:
             dirns = ['output_dir', 'log_dir']
             for dirn in dirns:
                 if dirn in step: os.mkdir(f"{self.scan_dir}/{step[dirn]}")
+                if dirn in step and "micromegas" in step['name']: os.mkdir(f"{self.scan_dir}/{step[dirn]}_raw")
         
         if self.prior == 'flat':
             self.sample_flat()
@@ -179,6 +196,8 @@ class ModelGenerator:
                     self.prep_input(modelnum=mod, output_dir=step['output_dir'])
                 elif "SPheno" in step['name']:
                     self.run_SPheno(modelnum=mod, input_dir=step['input_dir'], output_dir=step['output_dir'], log_dir=step['log_dir'])
+                elif "micromegas" in step['name']:
+                    self.run_micromegas(modelnum=mod, input_dir=step['input_dir'], output_dir=step['output_dir'])
                 else:
                     raise ValueError(f"ERROR: step name {step['name']} not supported!")
          

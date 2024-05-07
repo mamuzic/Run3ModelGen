@@ -1,6 +1,6 @@
 scan_dir: scan
 prior: flat
-num_models: 10
+num_models: 3
 isGMSB: False
 parameters:
   tanb: [1, 60]
@@ -29,3 +29,6 @@ steps:
     input_dir: input
     output_dir: SPheno
     log_dir: SPheno_log
+  - name: micromegas
+    input_dir: SPheno
+    output_dir: micromegas
