@@ -64,7 +64,8 @@ defaultFlags()
        CXX=g++
        echo   CC=gcc by default
     fi
-    CFLAGS="-g -fsigned-char -std=gnu99 -fPIC"
+    # CFLAGS="-g -fsigned-char -std=gnu99 -fPIC"
+    CFLAGS="-g -fsigned-char -std=gnu99 -fPIC -fcommon -L../../.pixi/envs/default/lib -lgfortran -lquadmath"
     CXXFLAGS="-g -fPIC"
     unKnownC=
   fi
