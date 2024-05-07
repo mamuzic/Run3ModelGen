@@ -40,7 +40,7 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
 | FeynHiggs | 2.19.0 | &#x274c; | 2.19.0 | &#x274c; |
 | SuperIso | 4.0 | &#x274c; | 4.1 7 | &#x274c; |
 | GM2Calc | 2.0.0 | &#x274c; | 2.2.0 | &#x274c; |
-| micrOMEGAs | 5.2.1 | &#x274c; | 6.0 | &#x274c; |
+| micrOMEGAs | 5.2.1 | &#x2705; | 6.0 | &#x274c; |
 | EVADE | 0.2.0 | &#x274c; | 0.2.0 | &#x274c; |
 
 ## Functionalities
