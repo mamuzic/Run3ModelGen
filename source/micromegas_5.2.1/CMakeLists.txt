@@ -1,6 +1,7 @@
 # CMakeLists.txt for the micromegas directory
 
 # Copy files from source directory to build directory
+message("Setting up micromegas build directory")
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_BINARY_DIR}/micromegas_5.2.1 FILES_MATCHING PATTERN "*")
 
 # Add custom target for micomegas
