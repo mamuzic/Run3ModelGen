@@ -17,6 +17,7 @@ pyyaml = ">=6.0.1,<6.1"
 cxx-compiler = ">=1.0.0,<1.1"
 make = ">=4.3,<5"
 which = ">=2.21,<3"
+automake = ">=1.16.5,<1.17"
 
 [pypi-dependencies]
 pyslha = ">=3.2.6"

@@ -7,6 +7,8 @@ environments:
       linux-64:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/_libgcc_mutex-0.1-conda_forge.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/_openmp_mutex-4.5-2_gnu.tar.bz2
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/autoconf-2.71-pl5321h2b4cb7a_1.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/automake-1.16.5-pl5321ha770c72_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/binutils_impl_linux-64-2.40-ha885e6a_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/binutils_linux-64-2.40-hdade7a5_3.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/bzip2-1.0.8-hd590300_5.conda
@@ -50,10 +52,12 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libuv-1.48.0-hd590300_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libxcrypt-4.4.36-hd590300_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/libzlib-1.2.13-hd590300_5.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/m4-1.4.18-h516909a_1001.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/make-4.3-hd18ef5c_1.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/ncurses-6.4.20240210-h59595ed_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/numpy-1.26.4-py311h64a7726_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/openssl-3.2.1-hd590300_1.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/perl-5.32.1-7_hd590300_perl5.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/python-3.11.9-hb806964_0_cpython.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/python_abi-3.11-4_cp311.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/pyyaml-6.0.1-py311h459d7ec_1.conda
@@ -80,7 +84,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/87/67/a37f6214d0e9fe57f6ae54b2956d550ca8365857f42a1ce0392bb21d9410/rich-13.7.1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/ae/5c/c22ca8b8715dd625bbdd6bc7ec87395e29940642d8dff213fad1aa8ce84d/structlog-24.1.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/67/67/0b008d2bc93137701145ccb4745ff7c4026804eb6a030e8fab8ec058c43b/tex2pix-0.3.1.tar.gz
-      - pypi: https://files.pythonhosted.org/packages/06/54/260998d0970b827c69fd7117baa231808ec99f7975e4ea1a3e9297021667/uproot-5.3.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/bc/cd/0780ccd2370f38ed7bc5ab71a770e3f3ffeff7321bef28b2d058d2c39d54/uproot-5.3.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/c2/0a/ba9d0ee9536d3ef73a3448e931776e658b36f128d344e175bc32b092a8bf/zipp-3.18.1-py3-none-any.whl
 packages:
 - kind: conda
@@ -112,6 +116,39 @@ packages:
   license_family: BSD
   size: 23621
   timestamp: 1650670423406
+- kind: conda
+  name: autoconf
+  version: '2.71'
+  build: pl5321h2b4cb7a_1
+  build_number: 1
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/autoconf-2.71-pl5321h2b4cb7a_1.conda
+  sha256: 04868bf7a2737af8c8a828b2c4b59653180a91da9c3ece77bae4e429a1b84cc1
+  md5: 50cabb1aee157a18082c7c92cc4b3143
+  depends:
+  - libgcc-ng >=12
+  - m4
+  - perl 5.*
+  license: GPL-3.0-or-later
+  license_family: GPL
+  size: 640760
+  timestamp: 1675368304772
+- kind: conda
+  name: automake
+  version: 1.16.5
+  build: pl5321ha770c72_0
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/automake-1.16.5-pl5321ha770c72_0.tar.bz2
+  sha256: 531d701fb733f74f059fb1ddd83d34336a668129c0ec0e9e5e365e89b11604e3
+  md5: a080bab94ace15a29b24b0e85ce58ba0
+  depends:
+  - autoconf
+  - m4
+  - perl 5.*
+  license: GPL-3.0-or-later
+  license_family: GPL
+  size: 655984
+  timestamp: 1634805925378
 - kind: pypi
   name: awkward
   version: 2.6.4
@@ -935,6 +972,20 @@ packages:
   size: 61588
   timestamp: 1686575217516
 - kind: conda
+  name: m4
+  version: 1.4.18
+  build: h516909a_1001
+  build_number: 1001
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/m4-1.4.18-h516909a_1001.tar.bz2
+  sha256: b8e37b92caab5a64a9e344f3d497b9d3e215d1e6211f6dc7c51b70799aab1da1
+  md5: 4abb931c0d08a41583fc637c663e45e2
+  depends:
+  - libgcc-ng >=7.5.0
+  license: GPL-3.0
+  size: 176215
+  timestamp: 1599682174542
+- kind: conda
   name: make
   version: '4.3'
   build: hd18ef5c_1
@@ -1048,6 +1099,21 @@ packages:
   url: https://files.pythonhosted.org/packages/49/df/1fceb2f8900f8639e278b056416d49134fb8d84c5942ffaa01ad34782422/packaging-24.0-py3-none-any.whl
   sha256: 2ddfb553fdf02fb784c234c7ba6ccc288296ceabec964ad2eae3777778130bc5
   requires_python: '>=3.7'
+- kind: conda
+  name: perl
+  version: 5.32.1
+  build: 7_hd590300_perl5
+  build_number: 7
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/perl-5.32.1-7_hd590300_perl5.conda
+  sha256: 9ec32b6936b0e37bcb0ed34f22ec3116e75b3c0964f9f50ecea5f58734ed6ce9
+  md5: f2cfec9406850991f4e3d960cc9e3321
+  depends:
+  - libgcc-ng >=12
+  - libxcrypt >=4.4.36
+  license: GPL-1.0-or-later OR Artistic-1.0-Perl
+  size: 13344463
+  timestamp: 1703310653947
 - kind: pypi
   name: pygments
   version: 2.18.0
@@ -1243,9 +1309,9 @@ packages:
   timestamp: 1706886945727
 - kind: pypi
   name: uproot
-  version: 5.3.4
-  url: https://files.pythonhosted.org/packages/06/54/260998d0970b827c69fd7117baa231808ec99f7975e4ea1a3e9297021667/uproot-5.3.4-py3-none-any.whl
-  sha256: 3cd15263110a06bcce06c69d84fb80c84566a774fc5d6b3006984d1fdcd4e8c0
+  version: 5.3.5
+  url: https://files.pythonhosted.org/packages/bc/cd/0780ccd2370f38ed7bc5ab71a770e3f3ffeff7321bef28b2d058d2c39d54/uproot-5.3.5-py3-none-any.whl
+  sha256: 678313e2cc5be69770df1fc2494c2f7b428d0e1866e2d37214468fc25a1f0c2c
   requires_dist:
   - awkward>=2.4.6
   - cramjam>=2.5.0
