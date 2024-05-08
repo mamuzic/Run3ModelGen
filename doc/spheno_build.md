@@ -31,6 +31,7 @@ add_custom_target(SPheno
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 ```
+Additionally, edit [source/cmake_build_env.sh](../source/cmake_build_env.sh) to append the executeable to `PATH`.
 
 ## 5. Out-of-source build
 

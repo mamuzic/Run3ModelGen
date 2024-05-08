@@ -25,7 +25,7 @@ make
 
 ## 4. Incorporating in the cmake pipeline
 
-After calling `make clean`, added a CMakeLists.txt file for micromegas, making the in-source build work
+After calling `make clean`, added a CMakeLists.txt file for micromegas, making the in-source build work. Additionally, edit [source/cmake_build_env.sh](../source/cmake_build_env.sh) to append the executeable to `PATH`.
 
 ## 5. Out-of-source build
 
