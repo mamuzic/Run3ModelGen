@@ -13,7 +13,7 @@ SHELL ["/bin/bash", "-c"]
 
 # Install Run3ModelGen
 RUN curl -fsSL https://pixi.sh/install.sh | bash && \
-    . ~/.bash_profile  && \
+    . ~/.bash_profile && \
     pwd && \
     ls  && \
     mkdir run && \
