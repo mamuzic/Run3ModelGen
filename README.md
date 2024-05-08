@@ -157,9 +157,9 @@ steps:
 
 ## Adding software/updating the software version
 
-Unfortunately, all software included here uses in-source-builds exclusively. I have taken notes on how I added the different software in this cmake workflow in:
+Unfortunately, most software included here uses in-source-builds exclusively. I have taken notes on how I added the different software in this cmake workflow in:
 - [doc/spheno_build](doc/spheno_build.md)
-- [doc/softsusy_build.md](doc/softsusy_build.md)
+- [doc/softsusy_build](doc/softsusy_build.md)
 - [doc/micromegas_build](doc/micromegas_build.md)
 
 ## Gaps in the scan ranges
