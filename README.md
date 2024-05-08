@@ -13,9 +13,9 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
 - [On startup](#on-startup)
 - [Running](#running)
   - [Changing the scan configuration](#changing-the-scan-configuration)
+  - [Fixing the parameter points](#fixing-the-parameter-points)
 - [FAQ](#faq)
   - [Adding software/updating the software version](#adding-softwareupdating-the-software-version)
-  - [Fixing the parameter points](#fixing-the-parameter-points)
   - [Gaps in the scan ranges](#gaps-in-the-scan-ranges)
   - [pixi](#pixi-1)
   - [More](#more)
@@ -154,15 +154,6 @@ steps:
     output_dir: micromegas
 ```
 
-# FAQ
-
-## Adding software/updating the software version
-
-Unfortunately, most software included here uses in-source-builds exclusively. I have taken notes on how I added the different software in this cmake workflow in:
-- [doc/spheno_build](doc/spheno_build.md)
-- [doc/softsusy_build](doc/softsusy_build.md)
-- [doc/micromegas_build](doc/micromegas_build.md)
-
 ## Fixing the parameter points
 
 To generate models with fixed parameters, simply supply a config file with a `fixed` prior, while supplying the parameters in a list. The below example will generate two models:
@@ -189,6 +180,15 @@ parameters:
   mdR: [4000, 4000]
   mbR: [4000, 4000]
 ```
+
+# FAQ
+
+## Adding software/updating the software version
+
+Unfortunately, most software included here uses in-source-builds exclusively. I have taken notes on how I added the different software in this cmake workflow in:
+- [doc/spheno_build](doc/spheno_build.md)
+- [doc/softsusy_build](doc/softsusy_build.md)
+- [doc/micromegas_build](doc/micromegas_build.md)
 
 ## Gaps in the scan ranges
 
