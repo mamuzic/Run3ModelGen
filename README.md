@@ -28,7 +28,7 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
 - [ ] Add missing functionalities
 - [ ] Make compatible with GAMBIT scanners
 - [ ] Improve overall readability & Useability
-- [ ] Add release notes incl. versions for external software.
+- [x] Add release notes incl. versions for external software.
 - [x] Make venv to not clutter the user's local AB python -> solved with pixi!
 
 ## Software content
