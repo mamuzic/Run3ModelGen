@@ -158,27 +158,13 @@ steps:
 
 To generate models with fixed parameters, simply supply a config file with a `fixed` prior, while supplying the parameters in a list. The example below will generate two models:
 ```yaml
+...
 prior: fixed
 parameters:
   tanb: [10, 60]
   M_1: [-1000, 2000]
   M_2: [-111, 20]
-  M_3: [2000, 4000]
-  AT: [-5000, 8000]
-  Ab: [-1000, 2000]
-  Atau: [-1000, 2000]
-  mu: [-1000, 2000]
-  mA: [1000, 2000]
-  meL: [100, 2000]
-  mtauL: [1000, 2000]
-  meR: [1000, 2000]
-  mtauR: [1000, 2000]
-  mqL1: [4000, 4000]
-  mqL3: [4000, 4000]
-  muR: [4000, 4000]
-  mtR: [4000, 4000]
-  mdR: [4000, 4000]
-  mbR: [4000, 4000]
+...
 ```
 
 # FAQ
