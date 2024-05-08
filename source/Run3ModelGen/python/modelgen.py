@@ -151,6 +151,16 @@ class ModelGenerator:
         
         return None
     
+    def run_softsusy(self, modelnum: int, input_dir: str, output_dir: str) -> None:
+        '''Run softsusy.'''
+        
+        infile = f"{self.scan_dir}/{input_dir}/{modelnum}.slha"
+        outfile = f"{self.scan_dir}/{output_dir}/{modelnum}.slha"
+        
+        os.system(f"softpoint.x leshouches < {infile} &> {outfile}")
+        
+        return None
+    
     def run_micromegas(self, modelnum: int, input_dir: str, output_dir: str) -> None:
         '''Run micromegas.'''
         
@@ -196,6 +206,8 @@ class ModelGenerator:
                     self.prep_input(modelnum=mod, output_dir=step['output_dir'])
                 elif "SPheno" in step['name']:
                     self.run_SPheno(modelnum=mod, input_dir=step['input_dir'], output_dir=step['output_dir'], log_dir=step['log_dir'])
+                elif "softsusy" in step['name']:
+                    self.run_softsusy(modelnum=mod, input_dir=step['input_dir'], output_dir=step['output_dir'])
                 elif "micromegas" in step['name']:
                     self.run_micromegas(modelnum=mod, input_dir=step['input_dir'], output_dir=step['output_dir'])
                 else:

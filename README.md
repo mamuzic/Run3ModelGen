@@ -36,7 +36,7 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
 | Software | Run 2 Version | Implemented | Latest Version | Implemented |
 | - | - | - | - | - |
 | SPheno | 4.0.5beta | &#x2705; | 4.0.5 | &#x274c; |
-| Softsusy | 4.1.11 | &#x274c; | 4.1.13 | &#x274c; |
+| Softsusy | 4.1.11 | &#x2705; | 4.1.13 | &#x274c; |
 | FeynHiggs | 2.19.0 | &#x274c; | 2.19.0 | &#x274c; |
 | SuperIso | 4.0 | &#x274c; | 4.1 7 | &#x274c; |
 | GM2Calc | 2.0.0 | &#x274c; | 2.2.0 | &#x274c; |
@@ -116,7 +116,7 @@ Here the contents of this default configuration:
 ```yaml
 scan_dir: scan
 prior: flat
-num_models: 10
+num_models: 3
 isGMSB: False
 parameters:
   tanb: [1, 60]
@@ -145,6 +145,12 @@ steps:
     input_dir: input
     output_dir: SPheno
     log_dir: SPheno_log
+  - name: softsusy
+    input_dir: input
+    output_dir: softsusy
+  - name: micromegas
+    input_dir: SPheno
+    output_dir: micromegas
 ```
 
 # FAQ
@@ -153,6 +159,7 @@ steps:
 
 Unfortunately, all software included here uses in-source-builds exclusively. I have taken notes on how I added the different software in this cmake workflow in:
 - [doc/spheno_build](doc/spheno_build.md)
+- [doc/softsusy_build.md](doc/softsusy_build.md)
 - [doc/micromegas_build](doc/micromegas_build.md)
 
 ## Gaps in the scan ranges

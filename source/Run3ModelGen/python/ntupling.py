@@ -800,7 +800,7 @@ def readModel(num: int, scanDir: str, outName: str, isGMSB: bool) -> dict:
     # Loop over inputDefinitions:
     inputDefinitions = [
     # directory, filetype, prefix, slha blocks, slha decays)
-    # ("softsusy/lesHouchesOutput", "SS_", softsusy_blocks, softsusy_decays,True),
+    ("softsusy/", ".slha", "SS_", softsusy_blocks, softsusy_decays,True),
     ("input/", ".slha", "IN_", input_blocks, {}, False),
     ("SPheno/", ".slha", "SP_", spheno_blocks, softsusy_decays, True),
     # ("feynhiggs_SP/spheno.out.fh-001","FHsp_",feynhiggs_blocks,softsusy_decays,False),
