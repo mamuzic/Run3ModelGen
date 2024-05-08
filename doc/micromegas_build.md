@@ -30,3 +30,13 @@ After calling `make clean`, added a CMakeLists.txt file for micromegas, making t
 ## 5. Out-of-source build
 
 To move to out-of-source building, I modified micromega's [CMakeLists.txt](../source/micromegas_5.2.1/CMakeLists.txt) to copy the entire source directory into the build dir and compile there. While this is pretty unclean, micromegas uses a large number of Makefiles, which otherwise would all need to be modified.
+
+## 6. Changes for fresh pulls
+
+Since empty directories are not included in git, I needed to modify the micromegas [CMakeLists.txt](../source/micromegas_5.2.1/CMakeLists.txt) to create them:
+```cmake
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/micromegas_5.2.1/MSSM/work/so_generated)
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/micromegas_5.2.1/MSSM/work/results)
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/micromegas_5.2.1/MSSM/work/tmp)
+...
+```
