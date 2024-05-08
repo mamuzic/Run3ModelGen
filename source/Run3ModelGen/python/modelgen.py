@@ -37,7 +37,8 @@ class ModelGenerator:
         for key, defaultval in self.read_yaml_file(default_config).items():
             if key in config_dict:
                 setattr(self, key, config_dict[key])
-            elif key == 'num_models' and config_dict['prior'] == 'fixed':
+            # If num_models is not supplied and the prior is 'fixed', read number of models from parameters
+            elif key == 'num_models' and config_dict.get('prior', None) == 'fixed':
                 setattr(self, key, len(config_dict['parameters']['tanb']))
             else:                
                 setattr(self, key, defaultval)
