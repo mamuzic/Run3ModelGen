@@ -156,7 +156,7 @@ steps:
 
 ## Fixing the parameter points
 
-To generate models with fixed parameters, simply supply a config file with a `fixed` prior, while supplying the parameters in a list. The below example will generate two models:
+To generate models with fixed parameters, simply supply a config file with a `fixed` prior, while supplying the parameters in a list. The example below will generate two models:
 ```yaml
 prior: fixed
 parameters:
