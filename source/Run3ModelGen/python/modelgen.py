@@ -37,6 +37,8 @@ class ModelGenerator:
         for key, defaultval in self.read_yaml_file(default_config).items():
             if key in config_dict:
                 setattr(self, key, config_dict[key])
+            elif key == 'num_models' and config_dict['prior'] == 'fixed':
+                setattr(self, key, len(config_dict['parameters']['tanb']))
             else:                
                 setattr(self, key, defaultval)
         
@@ -102,6 +104,14 @@ class ModelGenerator:
                 
             else:
                 self.points[key] = np.random.uniform(scanrange[0], scanrange[1], self.num_models)
+            
+        return None
+    
+    def sample_fixed(self) -> None:
+        '''Function for generating fixed points given by input config file.'''
+        
+        for key, pointlist in self.parameters.items():
+            self.points[key] = np.array(pointlist)
             
         return None
             
@@ -194,11 +204,13 @@ class ModelGenerator:
         
         if self.prior == 'flat':
             self.sample_flat()
+        elif self.prior == 'fixed':
+            self.sample_fixed()
         else:
             raise ValueError(f"ERROR: prior {self.prior} not supported. Can only be flat.")
         
         for mod in range(self.num_models):
-            log.info(f"Generating Model: {mod} out of {self.num_models-1}")
+            log.info(f"Generating Model: {mod}.slha ({mod+1}/{self.num_models})")
             
             for step in self.steps:
                 log.info(f"\trunning step: {step['name']}")

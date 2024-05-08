@@ -15,6 +15,7 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
   - [Changing the scan configuration](#changing-the-scan-configuration)
 - [FAQ](#faq)
   - [Adding software/updating the software version](#adding-softwareupdating-the-software-version)
+  - [Fixing the parameter points](#fixing-the-parameter-points)
   - [Gaps in the scan ranges](#gaps-in-the-scan-ranges)
   - [pixi](#pixi-1)
   - [More](#more)
@@ -161,6 +162,33 @@ Unfortunately, most software included here uses in-source-builds exclusively. I 
 - [doc/spheno_build](doc/spheno_build.md)
 - [doc/softsusy_build](doc/softsusy_build.md)
 - [doc/micromegas_build](doc/micromegas_build.md)
+
+## Fixing the parameter points
+
+To generate models with fixed parameters, simply supply a config file with a `fixed` prior, while supplying the parameters in a list. The below example will generate two models:
+```yaml
+prior: fixed
+parameters:
+  tanb: [10, 60]
+  M_1: [-1000, 2000]
+  M_2: [-111, 20]
+  M_3: [2000, 4000]
+  AT: [-5000, 8000]
+  Ab: [-1000, 2000]
+  Atau: [-1000, 2000]
+  mu: [-1000, 2000]
+  mA: [1000, 2000]
+  meL: [100, 2000]
+  mtauL: [1000, 2000]
+  meR: [1000, 2000]
+  mtauR: [1000, 2000]
+  mqL1: [4000, 4000]
+  mqL3: [4000, 4000]
+  muR: [4000, 4000]
+  mtR: [4000, 4000]
+  mdR: [4000, 4000]
+  mbR: [4000, 4000]
+```
 
 ## Gaps in the scan ranges
 
