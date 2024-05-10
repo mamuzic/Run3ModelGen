@@ -6,10 +6,20 @@ cmake_minimum_required( VERSION 3.20 )
 # Create a project
 project( Run3ModelGen )
 
+include( ExternalProject )
+
 # Add subdirectories
 add_subdirectory( SPheno-4.0.5beta )
-add_subdirectory( softsusy-4.1.11 )
 add_subdirectory( micromegas_5.2.1 )
+
+ExternalProject_Add( softsusy
+    PREFIX softsusy-4.1.11
+    URL http://softsusy.hepforge.org/downloads/softsusy-4.1.11.tar.gz
+    CONFIGURE_COMMAND <SOURCE_DIR>/configure
+    BUILD_COMMAND ${CMAKE_COMMAND} -E env "CMAKE_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_MAKE_PROGRAM}
+    INSTALL_COMMAND ""
+)
+
 
 # Add shell script to place all relevant files in build
 add_custom_target( Run3ModelGen
