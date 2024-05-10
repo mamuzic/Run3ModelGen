@@ -3,7 +3,7 @@ FROM gitlab-registry.cern.ch/linuxsupport/alma9-base:latest
 
 # Put the current repo (the one in which this Dockerfile resides) in the directory specified here
 # Note that this directory is created on the fly and does not need to reside in the repo already
-ADD . /workdir
+COPY . /workdir
 
 # Go into the directory specified here (again, it will create the directory if it doesn't already exist)
 WORKDIR /workdir/
