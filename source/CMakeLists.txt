@@ -12,6 +12,7 @@ include( ExternalProject )
 add_subdirectory( SPheno-4.0.5beta )
 add_subdirectory( micromegas_5.2.1 )
 
+# Add softsusy as ExternalProject because it builds out-of-the-box
 ExternalProject_Add( softsusy
     PREFIX softsusy-4.1.11
     URL http://softsusy.hepforge.org/downloads/softsusy-4.1.11.tar.gz
@@ -19,7 +20,6 @@ ExternalProject_Add( softsusy
     BUILD_COMMAND ${CMAKE_COMMAND} -E env "CMAKE_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_MAKE_PROGRAM}
     INSTALL_COMMAND ""
 )
-
 
 # Add shell script to place all relevant files in build
 add_custom_target( Run3ModelGen
