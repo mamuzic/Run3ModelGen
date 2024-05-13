@@ -175,6 +175,7 @@ Unfortunately, most software included here uses in-source-builds exclusively. I 
 - [doc/spheno_build](doc/spheno_build.md)
 - [doc/softsusy_build](doc/softsusy_build.md)
 - [doc/micromegas_build](doc/micromegas_build.md)
+- [doc/superiso_build](doc/superiso_build.md)
 
 ## Gaps in the scan ranges
 
