@@ -8,11 +8,13 @@ project( Run3ModelGen )
 
 include( ExternalProject )
 
-# Add subdirectories
+# Add subdirectories for tools that need tweaking
 add_subdirectory( SPheno-4.0.5beta )
 add_subdirectory( micromegas_5.2.1 )
 
-# Add softsusy as ExternalProject because it builds out-of-the-box
+# Add ExternalProjects for tools that run out-of-the-box
+
+# Add softsusy as ExternalProject
 ExternalProject_Add( softsusy
     PREFIX softsusy-4.1.11
     URL http://softsusy.hepforge.org/downloads/softsusy-4.1.11.tar.gz
@@ -22,11 +24,22 @@ ExternalProject_Add( softsusy
     INSTALL_COMMAND ""
 )
 
+# Add superiso as ExternalProject
+ExternalProject_Add( superiso
+    PREFIX superiso_v4.0
+    URL "${CMAKE_SOURCE_DIR}/superiso_v4.0.tgz"
+    DOWNLOAD_EXTRACT_TIMESTAMP NEW
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND ${CMAKE_MAKE_PROGRAM} && ${CMAKE_MAKE_PROGRAM} slha
+    INSTALL_COMMAND ""
+    BUILD_IN_SOURCE 1
+)
+
 # Add shell script to place all relevant files in build
 add_custom_target( Run3ModelGen
     COMMENT "Building Run3ModelGen"
     COMMAND ${CMAKE_SOURCE_DIR}/cmake_build_env.sh -s ${CMAKE_SOURCE_DIR} -b ${CMAKE_BINARY_DIR}
-    DEPENDS SPheno softsusy micromegas
+    DEPENDS SPheno softsusy micromegas superiso
 )
 
 # make Run3ModelGen the default target for "make"

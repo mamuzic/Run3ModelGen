@@ -35,3 +35,6 @@ steps:
   - name: micromegas
     input_dir: SPheno
     output_dir: micromegas
+  - name: superiso
+    input_dir: SPheno
+    output_dir: superiso

@@ -116,7 +116,17 @@ class ModelGenerator:
             
         return None
             
-    def prep_input(self, modelnum: int, output_dir: str) -> str:
+    def run_step(self, modelnum: int, **kwargs) -> None:
+        '''Function decorator for exectuting run_* function.'''
+        step_name = kwargs['name']
+        
+        # Select run_ function based on step name
+        if hasattr(self, f"run_{step_name}") and callable(func := getattr(self, f"run_{step_name}")):
+            func(modelnum, **kwargs)
+        else:
+            raise KeyError(f"step {step_name} not supported!")
+    
+    def run_prep_input(self, modelnum: int, **kwargs) -> str:
         '''Prep input. Returns the filename of the prepped file.'''
         
         rawfile = pyslha.read(f"{datadir}/raw.slha", ignorenomass = True)
@@ -146,44 +156,57 @@ class ModelGenerator:
         rawfile.blocks['EXTPAR'][48] = self.points['mdR'][modelnum] # msR := mdR
         rawfile.blocks['EXTPAR'][49] = self.points['mbR'][modelnum]
         
-        preppedfile = f"{self.scan_dir}/{output_dir}/{modelnum}.slha" 
+        preppedfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.slha" 
         pyslha.write(preppedfile, rawfile)
         
         return None
     
-    def run_SPheno(self, modelnum: int, input_dir: str, output_dir: str, log_dir: str) -> None:
+    def run_SPheno(self, modelnum: int, **kwargs):
         '''Run SPheno.'''
         
-        infile = f"{self.scan_dir}/{input_dir}/{modelnum}.slha"
-        outfile = f"{self.scan_dir}/{output_dir}/{modelnum}.slha"
-        logfile = f"{self.scan_dir}/{log_dir}/{modelnum}.log"
+        infile = f"{self.scan_dir}/{kwargs['input_dir']}/{modelnum}.slha"
+        outfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.slha"
+        logfile = f"{self.scan_dir}/{kwargs['log_dir']}/{modelnum}.log"
         
         os.system(f"SPheno {infile} {outfile} &> {logfile}")
         
         return None
     
-    def run_softsusy(self, modelnum: int, input_dir: str, output_dir: str) -> None:
+    def run_softsusy(self, modelnum: int, **kwargs) -> None:
         '''Run softsusy.'''
         
-        infile = f"{self.scan_dir}/{input_dir}/{modelnum}.slha"
-        outfile = f"{self.scan_dir}/{output_dir}/{modelnum}.slha"
+        infile = f"{self.scan_dir}/{kwargs['input_dir']}/{modelnum}.slha"
+        outfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.slha"
         
         os.system(f"softpoint.x leshouches < {infile} &> {outfile}")
         
         return None
     
-    def run_micromegas(self, modelnum: int, input_dir: str, output_dir: str) -> None:
+    def run_micromegas(self, modelnum: int, **kwargs) -> None:
         '''Run micromegas.'''
         
-        infile = f"{self.scan_dir}/{input_dir}/{modelnum}.slha"
-        outfile_raw = f"{self.scan_dir}/{output_dir}_raw/{modelnum}.out"
-        outfile = f"{self.scan_dir}/{output_dir}/{modelnum}.csv"
+        infile = f"{self.scan_dir}/{kwargs['input_dir']}/{modelnum}.slha"
+        outfile_raw = f"{self.scan_dir}/{kwargs['output_dir']}_raw/{modelnum}.out"
+        outfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.csv"
         
         # Run micromegas to get the raw, humanly readable output
         os.system(f"main {infile} > {outfile_raw}")
         
         # Extract values into outfile
         microextract(infilen = outfile_raw, outfilen = outfile)
+        
+        return None
+    
+    def run_superiso(self, modelnum: int, **kwargs) -> None:
+        '''Run superiso.'''
+        
+        infile = f"{self.scan_dir}/{kwargs['input_dir']}/{modelnum}.slha"
+        outfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.flha"
+        
+        # Run superiso and pipe humanly readable output into null
+        os.system(f"slha.x {infile} &>/dev/null")
+        # Move the auto-generated output file into the right location
+        os.system(f"mv output.flha {outfile}")
         
         return None
     
@@ -215,16 +238,7 @@ class ModelGenerator:
             
             for step in self.steps:
                 log.info(f"\trunning step: {step['name']}")
-                if "input" in step['name']:
-                    self.prep_input(modelnum=mod, output_dir=step['output_dir'])
-                elif "SPheno" in step['name']:
-                    self.run_SPheno(modelnum=mod, input_dir=step['input_dir'], output_dir=step['output_dir'], log_dir=step['log_dir'])
-                elif "softsusy" in step['name']:
-                    self.run_softsusy(modelnum=mod, input_dir=step['input_dir'], output_dir=step['output_dir'])
-                elif "micromegas" in step['name']:
-                    self.run_micromegas(modelnum=mod, input_dir=step['input_dir'], output_dir=step['output_dir'])
-                else:
-                    raise ValueError(f"ERROR: step name {step['name']} not supported!")
+                self.run_step(modelnum=mod, **step)
          
         # Dump scan config in scan_dir
         with open(f"{self.scan_dir}/scan_config.yaml", "w") as file:
