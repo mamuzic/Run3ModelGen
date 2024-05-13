@@ -34,6 +34,5 @@ ExternalProject_Add( superiso
 )
 ```
 
-Which technically only does an in-source build, but since the files are extrated into our build directory, that's good enough.
-
+Which technically only does an in-source build, but since the files are extrated into our build directory, that's good enough. Unfortunately, superiso does not allow automatic downloads, so I'm adding the tar ball locally.
 Additionally, edit [source/cmake_build_env.sh](../source/cmake_build_env.sh) to append the executeable to `PATH`.
