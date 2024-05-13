@@ -24,7 +24,7 @@ build_local:
     - pixi run which c++
     # build project
     - pixi run cmake -S source -B build
-    - pixi run cmake --build build
+    - pixi run cmake --build build -j8
   artifacts:
     expire_in: 1 week
     paths:
