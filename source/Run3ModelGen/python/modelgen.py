@@ -9,6 +9,7 @@ import pyslha
 
 from Run3ModelGen.ntupling import mkntuple
 from Run3ModelGen.microextract import microextract
+from Run3ModelGen.addinputblocks import addinputblocks
 
 import structlog
 log = structlog.get_logger()
@@ -27,6 +28,7 @@ class ModelGenerator:
         print(logo)
         
         self.config_file = config_file
+        self.rawfilen = f"{datadir}/raw.slha"
         self.seed = seed
         self.points = {}
         
@@ -129,7 +131,7 @@ class ModelGenerator:
     def run_prep_input(self, modelnum: int, **kwargs) -> str:
         '''Prep input. Returns the filename of the prepped file.'''
         
-        rawfile = pyslha.read(f"{datadir}/raw.slha", ignorenomass = True)
+        rawfile = pyslha.read(self.rawfilen, ignorenomass = True)
         
         rawfile.blocks['EXTPAR'][1] = self.points['M_1'][modelnum]
         rawfile.blocks['EXTPAR'][2] = self.points['M_2'][modelnum]
@@ -162,13 +164,17 @@ class ModelGenerator:
         return None
     
     def run_SPheno(self, modelnum: int, **kwargs):
-        '''Run SPheno.'''
+        '''Run SPheno and re-add input blocks to output file. Relevant for running tools on output file.'''
         
         infile = f"{self.scan_dir}/{kwargs['input_dir']}/{modelnum}.slha"
         outfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.slha"
         logfile = f"{self.scan_dir}/{kwargs['log_dir']}/{modelnum}.log"
         
+        # run SPheno
         os.system(f"SPheno {infile} {outfile} &> {logfile}")
+        
+        # Re-add input blocks needed for other tools since SPheno swallows them:
+        addinputblocks(infile=outfile, blocksfile=self.rawfilen)
         
         return None
     
@@ -207,6 +213,29 @@ class ModelGenerator:
         os.system(f"slha.x {infile} &>/dev/null")
         # Move the auto-generated output file into the right location
         os.system(f"mv output.flha {outfile}")
+        
+        return None
+    
+    # def run_feynhiggs(self, modelnum: int, **kwargs) -> None:
+    #     '''Run FeynHiggs.'''
+        
+    #     infile = f"{self.scan_dir}/{kwargs['input_dir']}/{modelnum}.slha"
+    #     outfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.slha"
+    #     logfile = f"{self.scan_dir}/{kwargs['log_dir']}/{modelnum}.log"
+        
+    #     # Run superiso and pipe humanly readable output into null
+    #     os.system(f"slha.x {infile} {outfile} > {logfile}")
+        
+    #     return None
+    
+    def run_gm2calc(self, modelnum: int, **kwargs) -> None:
+        '''Run GM2Calc.'''
+        
+        infile = f"{self.scan_dir}/{kwargs['input_dir']}/{modelnum}.slha"
+        outfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.slha"
+        
+        # Run superiso and pipe humanly readable output into null
+        os.system(f"gm2calc.x --slha-input-file={infile} > {outfile}")
         
         return None
     

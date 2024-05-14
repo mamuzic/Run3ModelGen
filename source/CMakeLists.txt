@@ -35,11 +35,31 @@ ExternalProject_Add( superiso
     BUILD_IN_SOURCE 1
 )
 
+# # Add FeynHiggs as ExternalProject
+# ExternalProject_Add( feyngiggs
+#     PREFIX FeynHiggs-2.19.0
+#     URL https://wwwth.mpp.mpg.de/members/heinemey/feynhiggs/newversion/FeynHiggs-2.19.0.tar.gz
+#     DOWNLOAD_EXTRACT_TIMESTAMP NEW
+#     CONFIGURE_COMMAND <SOURCE_DIR>/configure
+#     BUILD_COMMAND ${CMAKE_COMMAND} -E env "CMAKE_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_MAKE_PROGRAM} CFLAGS="-z noexecstack"
+#     INSTALL_COMMAND ${CMAKE_COMMAND} -E env "CMAKE_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_MAKE_PROGRAM} install
+# )
+
+# Add GM2Calc as ExternalProject
+ExternalProject_Add( gm2calc
+    PREFIX GM2Calc-2.0.0
+    URL https://github.com/GM2Calc/GM2Calc/archive/v2.0.0.tar.gz
+    DOWNLOAD_EXTRACT_TIMESTAMP NEW
+    BUILD_COMMAND ${CMAKE_COMMAND} -E env "CMAKE_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_MAKE_PROGRAM}
+    INSTALL_COMMAND ""
+)
+
 # Add shell script to place all relevant files in build
 add_custom_target( Run3ModelGen
     COMMENT "Building Run3ModelGen"
     COMMAND ${CMAKE_SOURCE_DIR}/cmake_build_env.sh -s ${CMAKE_SOURCE_DIR} -b ${CMAKE_BINARY_DIR}
-    DEPENDS SPheno softsusy micromegas superiso
+    # DEPENDS SPheno softsusy micromegas superiso feyngiggs gm2calc
+    DEPENDS SPheno softsusy micromegas superiso gm2calc
 )
 
 # make Run3ModelGen the default target for "make"

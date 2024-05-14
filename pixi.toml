@@ -21,6 +21,8 @@ uproot = ">=5.3.7,<5.4"
 rich = ">=13.7.1,<13.8"
 structlog = ">=24.1.0,<24.2"
 click = ">=8.1.7,<8.2"
+boost = ">=1.85.0,<1.86"
+eigen = ">=3.4.0,<3.5"
 
 [target.linux-64.dependencies]
 gcc = ">=13.2.0,<13.3"
