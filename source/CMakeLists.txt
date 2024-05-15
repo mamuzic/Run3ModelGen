@@ -29,6 +29,7 @@ ExternalProject_Add( superiso
     PREFIX superiso_v4.0
     URL "${CMAKE_SOURCE_DIR}/superiso_v4.0.tgz"
     DOWNLOAD_EXTRACT_TIMESTAMP NEW
+    CMAKE_ARGS -j1
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ${CMAKE_MAKE_PROGRAM} && ${CMAKE_MAKE_PROGRAM} slha
     INSTALL_COMMAND ""
