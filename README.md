@@ -42,7 +42,7 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
 | SuperIso | 4.0 | &#x2705; | 4.1 7 | &#x274c; |
 | GM2Calc | 2.0.0 | &#x2705; | 2.2.0 | &#x274c; |
 | micrOMEGAs | 5.2.1 | &#x2705; | 6.0 | &#x274c; |
-| EVADE | 0.2.0 | &#x274c; | 0.2.0 | &#x274c; |
+| EVADE | 0.2.0 | &#x2705; | 0.2.0 | &#x2705; |
 
 ## Functionalities
 
