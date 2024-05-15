@@ -302,4 +302,4 @@ class ModelGenerator:
     def mkntuple(self) -> None:
         '''Promote ntuple making to class attribute.'''
         
-        return mkntuple(self.scan_dir, self.num_models, self.isGMSB)
+        return mkntuple(self.steps, self.scan_dir, self.num_models, self.isGMSB)

@@ -787,26 +787,26 @@ def readSLHA(name: str, data: dict, prefix: str, blocks: dict, decays: dict, nee
         
     return None
 
-def readModel(num: int, scanDir: str, outName: str, isGMSB: bool) -> dict:
+def readModel(inputDefinitions: list[tuple], num: int, scanDir: str, outName: str, isGMSB: bool) -> dict:
     '''Function for reading model files, looping over input definitions. Returns model info in dict.'''
     data={}
     #data['model']=num
     data['model']=int(outName.split('.')[-2]+'00000')+num
 
+    # inputDefinitions = [
+    # # directory, filetype, prefix, slha blocks, slha decays)
+    # ("softsusy/", ".slha", "SS_", softsusy_blocks, softsusy_decays,True),
+    # ("input/", ".slha", "IN_", input_blocks, {}, False),
+    # ("SPheno/", ".slha", "SP_", spheno_blocks, softsusy_decays, True),
+    # # ("feynhiggs_SP/spheno.out.fh-001","FHsp_",feynhiggs_blocks,softsusy_decays,False),
+    # # ("spheno_FH/spheno_FH.out","SPfh_",spheno_blocks,softsusy_decays,True),
+    # ("micromegas/", ".csv", "", None, None, None),
+    # ("superiso/", ".flha", "SI_", superiso_blocks, {} , False),
+    # ("gm2calc/", ".slha", "GM2_", gm2calc_blocks, {}, False),
+    # # ("feynhiggs_SP_FHsp/spheno_FH.out.fh-001","FHspfh_",feynhiggs_Wmass_blocks,{},False),
+    # ("evade/", ".tsv", "EV_", None, None, None)
+    # ]
     # Loop over inputDefinitions:
-    inputDefinitions = [
-    # directory, filetype, prefix, slha blocks, slha decays)
-    ("softsusy/", ".slha", "SS_", softsusy_blocks, softsusy_decays,True),
-    ("input/", ".slha", "IN_", input_blocks, {}, False),
-    ("SPheno/", ".slha", "SP_", spheno_blocks, softsusy_decays, True),
-    # ("feynhiggs_SP/spheno.out.fh-001","FHsp_",feynhiggs_blocks,softsusy_decays,False),
-    # ("spheno_FH/spheno_FH.out","SPfh_",spheno_blocks,softsusy_decays,True),
-    ("micromegas/", ".csv", "", None, None, None),
-    ("superiso/", ".flha", "SI_", superiso_blocks, {} , False),
-    ("gm2calc/", ".slha", "GM2_", gm2calc_blocks, {}, False),
-    # ("feynhiggs_SP_FHsp/spheno_FH.out.fh-001","FHspfh_",feynhiggs_Wmass_blocks,{},False),
-    ("evade/", ".tsv", "EV_", None, None, None)
-    ]
     for inputDef in inputDefinitions:
         (directory, filetype, prefix, blocks, decays, needsMass) = inputDef
         
@@ -832,19 +832,40 @@ def readModel(num: int, scanDir: str, outName: str, isGMSB: bool) -> dict:
                         pass
     return data
 
-def mkntuple(scan_dir: str, num_models: int, isGMSB: bool) -> None:
+def mkntuple(steps: dict, scan_dir: str, num_models: int, isGMSB: bool) -> None:
     '''Function for generating ntuple for directory scan_dir with num_models using uproot.'''
     log.info(f"Will make NTuple for: {scan_dir}, with {num_models} models")
     
     outName = f"{scan_dir}/example.0.0.root"
     file = uproot.recreate(outName)
     
+    # Build inputDefinitions from steps dict
+    inputDefinitions = []
+    for step in steps:
+        if "input" in step['name']:
+            inputDefinitions += [ (f"{step['output_dir']}/", ".slha", "IN_", input_blocks, {}, False), ]
+        elif "softsusy" in step['name']:
+            inputDefinitions += [ (f"{step['output_dir']}/", ".slha", "SS_", softsusy_blocks, softsusy_decays,True),]
+        elif "SPheno" in step['name']:
+            inputDefinitions += [ (f"{step['output_dir']}/", ".slha", "SP_", spheno_blocks, softsusy_decays, True), ]
+        elif "micromegas" in step['name']:
+            print(f"{step['output_dir']}/")
+            inputDefinitions += [ (f"{step['output_dir']}/", ".csv", "", None, None, None), ]
+        elif "superiso" in step['name']:
+            inputDefinitions += [ (f"{step['output_dir']}/", ".flha", "SI_", superiso_blocks, {}, False), ]
+        elif "gm2calc" in step['name']:
+            inputDefinitions += [ (f"{step['output_dir']}/", ".slha", "GM2_", gm2calc_blocks, {}, False), ]
+        elif "evade" in step['name']:
+            inputDefinitions += [ (f"{step['output_dir']}/", ".tsv", "EV_", None, None, None) ]
+        else:
+            raise KeyError(f"Step name {step['name']} not recognised!")
+    
     treedict = {}
     # Loop over models and keys and treedict accordingly
     for modid in range(num_models):
         if modid%100==0: log.info(f"\tFilling values for model: {modid}")
         
-        fileData=readModel(modid, scan_dir, outName, isGMSB)
+        fileData=readModel(inputDefinitions, modid, scan_dir, outName, isGMSB)
         
         for key in fileData:
             value = fileData[key]
