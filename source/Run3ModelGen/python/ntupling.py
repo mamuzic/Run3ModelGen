@@ -701,10 +701,6 @@ def readSLHA(name: str, data: dict, prefix: str, blocks: dict, decays: dict, nee
         data[prefix+"LSQ_type"]=min(qmass)[1]
         data[prefix+"LSQ_mass"]=min(qmass)[0]
 
-    #skipping model file if GM2CALCOUTPUT block not found for gm2 files:
-    if 'GM2CALCOUTPUT' not in BLOCKS and "gm2" in name:
-        return
-
     # Loop over non-decay blocks
     for block,vars in blocks.items():
         try: slha=BLOCKS[block]
@@ -805,9 +801,9 @@ def readModel(num: int, scanDir: str, outName: str, isGMSB: bool) -> dict:
     ("SPheno/", ".slha", "SP_", spheno_blocks, softsusy_decays, True),
     # ("feynhiggs_SP/spheno.out.fh-001","FHsp_",feynhiggs_blocks,softsusy_decays,False),
     # ("spheno_FH/spheno_FH.out","SPfh_",spheno_blocks,softsusy_decays,True),
-    ("micromegas/",".csv", None, None, None, None), #if only name, we assume it is a directory of csv file
-    ("superiso/",".flha", "SI_", superiso_blocks, {} , False),
-    # ("gm2calc/gm2calc.out","GM2_",gm2calc_blocks,{},False),
+    ("micromegas/", ".csv", None, None, None, None), #if only name, we assume it is a directory of csv file
+    ("superiso/", ".flha", "SI_", superiso_blocks, {} , False),
+    ("gm2calc/", ".slha", "GM2_", gm2calc_blocks, {}, False),
     # ("feynhiggs_SP_FHsp/spheno_FH.out.fh-001","FHspfh_",feynhiggs_Wmass_blocks,{},False),
     # ("EVADE_output/EVADE.tsv","EVADE_") #if only name, we assume it is a directory of csv file
     ]
