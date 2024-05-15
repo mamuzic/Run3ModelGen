@@ -10,6 +10,7 @@ import pyslha
 from Run3ModelGen.ntupling import mkntuple
 from Run3ModelGen.microextract import microextract
 from Run3ModelGen.addinputblocks import addinputblocks
+from Run3ModelGen.pMSSM_convert import convert_slha
 
 import structlog
 log = structlog.get_logger()
@@ -239,6 +240,22 @@ class ModelGenerator:
         
         return None
     
+    def run_evade(self, modelnum: int, **kwargs) -> None:
+        '''Run EVADE.'''
+        
+        infile = f"{self.scan_dir}/{kwargs['input_dir']}/{modelnum}.slha"
+        outfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.tsv"
+        evade_conffile = f"{self.scan_dir}/{kwargs['output_dir']}_config/{modelnum}.cfg"
+        evade_infile = f"{self.scan_dir}/{kwargs['output_dir']}_evade_in/{modelnum}.in"
+        
+        # Convert .slha file into EVADE compatible input
+        convert_slha(infile, evade_infile, evade_conffile, outfile)
+        
+        # Run evade and pipe humanly readable output into null
+        os.system(f"EVADE_MSSM {evade_conffile} &>/dev/null")
+        
+        return None
+    
     def generate_models(self) -> None:
         '''Main function to generate models.'''
         
@@ -254,6 +271,9 @@ class ModelGenerator:
             for dirn in dirns:
                 if dirn in step: os.mkdir(f"{self.scan_dir}/{step[dirn]}")
                 if dirn in step and "micromegas" in step['name']: os.mkdir(f"{self.scan_dir}/{step[dirn]}_raw")
+                if dirn in step and "evade" in step['name']: 
+                    os.mkdir(f"{self.scan_dir}/{step[dirn]}_config")
+                    os.mkdir(f"{self.scan_dir}/{step[dirn]}_evade_in")
         
         if self.prior == 'flat':
             self.sample_flat()

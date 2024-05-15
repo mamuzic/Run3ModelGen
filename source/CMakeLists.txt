@@ -54,12 +54,21 @@ ExternalProject_Add( gm2calc
     INSTALL_COMMAND ""
 )
 
+# Add EVADE as ExternalProject
+ExternalProject_Add( evade
+    PREFIX EVADE-0.2.0
+    GIT_REPOSITORY https://gitlab.com/jonaswittbrodt/EVADE.git
+    DOWNLOAD_EXTRACT_TIMESTAMP NEW
+    UPDATE_COMMAND ""
+    BUILD_COMMAND ${CMAKE_COMMAND} -E env "CMAKE_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_MAKE_PROGRAM}
+    INSTALL_COMMAND ""
+)
+
 # Add shell script to place all relevant files in build
 add_custom_target( Run3ModelGen
     COMMENT "Building Run3ModelGen"
     COMMAND ${CMAKE_SOURCE_DIR}/cmake_build_env.sh -s ${CMAKE_SOURCE_DIR} -b ${CMAKE_BINARY_DIR}
-    # DEPENDS SPheno softsusy micromegas superiso feyngiggs gm2calc
-    DEPENDS SPheno softsusy micromegas superiso gm2calc
+    DEPENDS SPheno micromegas
 )
 
 # make Run3ModelGen the default target for "make"

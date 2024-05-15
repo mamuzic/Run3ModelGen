@@ -41,3 +41,6 @@ steps:
   - name: gm2calc
     input_dir: SPheno
     output_dir: gm2calc
+  - name: evade
+    input_dir: SPheno
+    output_dir: evade

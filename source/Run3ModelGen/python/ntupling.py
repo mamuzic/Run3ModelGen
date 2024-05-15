@@ -801,11 +801,11 @@ def readModel(num: int, scanDir: str, outName: str, isGMSB: bool) -> dict:
     ("SPheno/", ".slha", "SP_", spheno_blocks, softsusy_decays, True),
     # ("feynhiggs_SP/spheno.out.fh-001","FHsp_",feynhiggs_blocks,softsusy_decays,False),
     # ("spheno_FH/spheno_FH.out","SPfh_",spheno_blocks,softsusy_decays,True),
-    ("micromegas/", ".csv", None, None, None, None), #if only name, we assume it is a directory of csv file
+    ("micromegas/", ".csv", "", None, None, None),
     ("superiso/", ".flha", "SI_", superiso_blocks, {} , False),
     ("gm2calc/", ".slha", "GM2_", gm2calc_blocks, {}, False),
     # ("feynhiggs_SP_FHsp/spheno_FH.out.fh-001","FHspfh_",feynhiggs_Wmass_blocks,{},False),
-    # ("EVADE_output/EVADE.tsv","EVADE_") #if only name, we assume it is a directory of csv file
+    ("evade/", ".tsv", "EV_", None, None, None)
     ]
     for inputDef in inputDefinitions:
         (directory, filetype, prefix, blocks, decays, needsMass) = inputDef
@@ -818,13 +818,16 @@ def readModel(num: int, scanDir: str, outName: str, isGMSB: bool) -> dict:
             readSLHA(fileName, data, prefix, blocks, decays, needsMass, isGMSB)
         else: 
             myData=csvReader.read(fileName)
-            prefix=""
-            if len(inputDef)==2: prefix=inputDef[3]
+            prefix = inputDef[2]
             for col in myData:
                 for row in myData[col]:
                     try:
                         val=float(myData[col][row])
-                        data[prefix+col+"_"+row.replace(':','_').replace("-","_")]=val
+                        # Small fix for evade: filter out row = 0
+                        if row == "0":
+                            data[prefix+col]=val
+                        else:
+                            data[prefix+col+"_"+row.replace(':','_').replace("-","_")]=val
                     except ValueError:
                         pass
     return data
