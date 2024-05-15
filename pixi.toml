@@ -8,6 +8,40 @@ platforms = ["linux-64", "osx-64", "osx-arm64"]
 
 [tasks]
 
+build = """
+cmake -S source -B build && \
+cmake \
+    --build build \
+    --clean-first \
+    --parallel 8
+"""
+
+# c.f. https://github.com/prefix-dev/pixi/issues/1350
+genModels = """
+bash -c '\
+. build/setup.sh && \
+mkdir -p run && \
+cd run && \
+genModels.py'
+"""
+
+clean = """
+rm -rf build && \
+rm -rf run
+"""
+
+genModels-clean = { depends-on = ["clean", "build", "genModels"] }
+
+[target.linux-64.tasks]
+# Use nproc as available
+build = """
+cmake -S source -B build && \
+cmake \
+    --build build \
+    --clean-first \
+    --parallel "$(nproc --ignore=1)"
+"""
+
 [dependencies]
 python = "3.11.*"
 gfortran = ">=13.2.0,<13.3"
