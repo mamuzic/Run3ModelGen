@@ -142,16 +142,32 @@ parameters:
 steps:
   - name: prep_input
     output_dir: input
+    prefix: IN
   - name: SPheno
     input_dir: input
     output_dir: SPheno
     log_dir: SPheno_log
+    prefix: SP
   - name: softsusy
     input_dir: input
     output_dir: softsusy
+    prefix: SS
   - name: micromegas
     input_dir: SPheno
     output_dir: micromegas
+    prefix: MO
+  - name: superiso
+    input_dir: SPheno
+    output_dir: superiso
+    prefix: SI
+  - name: gm2calc
+    input_dir: SPheno
+    output_dir: gm2calc
+    prefix: GM2
+  - name: evade
+    input_dir: SPheno
+    output_dir: evade
+    prefix: EV
 ```
 
 ## Fixing the parameter points

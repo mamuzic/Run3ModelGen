@@ -793,23 +793,10 @@ def readModel(inputDefinitions: list[tuple], num: int, scanDir: str, outName: st
     #data['model']=num
     data['model']=int(outName.split('.')[-2]+'00000')+num
 
-    # inputDefinitions = [
-    # # directory, filetype, prefix, slha blocks, slha decays)
-    # ("softsusy/", ".slha", "SS_", softsusy_blocks, softsusy_decays,True),
-    # ("input/", ".slha", "IN_", input_blocks, {}, False),
-    # ("SPheno/", ".slha", "SP_", spheno_blocks, softsusy_decays, True),
-    # # ("feynhiggs_SP/spheno.out.fh-001","FHsp_",feynhiggs_blocks,softsusy_decays,False),
-    # # ("spheno_FH/spheno_FH.out","SPfh_",spheno_blocks,softsusy_decays,True),
-    # ("micromegas/", ".csv", "", None, None, None),
-    # ("superiso/", ".flha", "SI_", superiso_blocks, {} , False),
-    # ("gm2calc/", ".slha", "GM2_", gm2calc_blocks, {}, False),
-    # # ("feynhiggs_SP_FHsp/spheno_FH.out.fh-001","FHspfh_",feynhiggs_Wmass_blocks,{},False),
-    # ("evade/", ".tsv", "EV_", None, None, None)
-    # ]
     # Loop over inputDefinitions:
     for inputDef in inputDefinitions:
         (directory, filetype, prefix, blocks, decays, needsMass) = inputDef
-        
+        prefix += "_"
         fileName=os.path.join(scanDir,directory)+str(num)+filetype
 
         # read file using csv reader or readSLHA depending on inputDef
@@ -818,7 +805,6 @@ def readModel(inputDefinitions: list[tuple], num: int, scanDir: str, outName: st
             readSLHA(fileName, data, prefix, blocks, decays, needsMass, isGMSB)
         else: 
             myData=csvReader.read(fileName)
-            prefix = inputDef[2]
             for col in myData:
                 for row in myData[col]:
                     try:
@@ -827,7 +813,7 @@ def readModel(inputDefinitions: list[tuple], num: int, scanDir: str, outName: st
                         if row == "0":
                             data[prefix+col]=val
                         else:
-                            data[prefix+col+"_"+row.replace(':','_').replace("-","_")]=val
+                            data[prefix+row.replace(':','_').replace("-","_")]=val
                     except ValueError:
                         pass
     return data
@@ -843,19 +829,19 @@ def mkntuple(steps: dict, scan_dir: str, num_models: int, isGMSB: bool) -> None:
     inputDefinitions = []
     for step in steps:
         if "input" in step['name']:
-            inputDefinitions += [ (f"{step['output_dir']}/", ".slha", "IN_", input_blocks, {}, False), ]
+            inputDefinitions += [ (f"{step['output_dir']}/", ".slha", f"{step['prefix']}", input_blocks, {}, False), ]
         elif "softsusy" in step['name']:
-            inputDefinitions += [ (f"{step['output_dir']}/", ".slha", "SS_", softsusy_blocks, softsusy_decays,True),]
+            inputDefinitions += [ (f"{step['output_dir']}/", ".slha", f"{step['prefix']}", softsusy_blocks, softsusy_decays,True),]
         elif "SPheno" in step['name']:
-            inputDefinitions += [ (f"{step['output_dir']}/", ".slha", "SP_", spheno_blocks, softsusy_decays, True), ]
+            inputDefinitions += [ (f"{step['output_dir']}/", ".slha", f"{step['prefix']}", spheno_blocks, softsusy_decays, True), ]
         elif "micromegas" in step['name']:
-            inputDefinitions += [ (f"{step['output_dir']}/", ".csv", "", None, None, None), ]
+            inputDefinitions += [ (f"{step['output_dir']}/", ".csv", f"{step['prefix']}", None, None, None), ]
         elif "superiso" in step['name']:
-            inputDefinitions += [ (f"{step['output_dir']}/", ".flha", "SI_", superiso_blocks, {}, False), ]
+            inputDefinitions += [ (f"{step['output_dir']}/", ".flha", f"{step['prefix']}", superiso_blocks, {}, False), ]
         elif "gm2calc" in step['name']:
-            inputDefinitions += [ (f"{step['output_dir']}/", ".slha", "GM2_", gm2calc_blocks, {}, False), ]
+            inputDefinitions += [ (f"{step['output_dir']}/", ".slha", f"{step['prefix']}", gm2calc_blocks, {}, False), ]
         elif "evade" in step['name']:
-            inputDefinitions += [ (f"{step['output_dir']}/", ".tsv", "EV_", None, None, None) ]
+            inputDefinitions += [ (f"{step['output_dir']}/", ".tsv", f"{step['prefix']}", None, None, None) ]
         else:
             raise KeyError(f"Step name {step['name']} not recognised!")
     
