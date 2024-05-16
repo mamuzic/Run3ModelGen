@@ -849,7 +849,6 @@ def mkntuple(steps: dict, scan_dir: str, num_models: int, isGMSB: bool) -> None:
         elif "SPheno" in step['name']:
             inputDefinitions += [ (f"{step['output_dir']}/", ".slha", "SP_", spheno_blocks, softsusy_decays, True), ]
         elif "micromegas" in step['name']:
-            print(f"{step['output_dir']}/")
             inputDefinitions += [ (f"{step['output_dir']}/", ".csv", "", None, None, None), ]
         elif "superiso" in step['name']:
             inputDefinitions += [ (f"{step['output_dir']}/", ".flha", "SI_", superiso_blocks, {}, False), ]
