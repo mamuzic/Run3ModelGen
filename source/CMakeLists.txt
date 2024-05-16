@@ -19,6 +19,7 @@ ExternalProject_Add( softsusy
     PREFIX softsusy-4.1.11
     URL http://softsusy.hepforge.org/downloads/softsusy-4.1.11.tar.gz
     DOWNLOAD_EXTRACT_TIMESTAMP NEW
+    UPDATE_COMMAND ""
     CONFIGURE_COMMAND <SOURCE_DIR>/configure
     BUILD_COMMAND ${CMAKE_COMMAND} -E env "CMAKE_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_MAKE_PROGRAM}
     INSTALL_COMMAND ""
@@ -30,6 +31,7 @@ ExternalProject_Add( superiso
     URL "${CMAKE_SOURCE_DIR}/superiso_v4.0.tgz"
     DOWNLOAD_EXTRACT_TIMESTAMP NEW
     CMAKE_ARGS -j1
+    UPDATE_COMMAND ""
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ${CMAKE_MAKE_PROGRAM} && ${CMAKE_MAKE_PROGRAM} slha
     INSTALL_COMMAND ""
@@ -41,6 +43,7 @@ ExternalProject_Add( superiso
 #     PREFIX FeynHiggs-2.19.0
 #     URL https://wwwth.mpp.mpg.de/members/heinemey/feynhiggs/newversion/FeynHiggs-2.19.0.tar.gz
 #     DOWNLOAD_EXTRACT_TIMESTAMP NEW
+#     UPDATE_COMMAND ""
 #     CONFIGURE_COMMAND <SOURCE_DIR>/configure
 #     BUILD_COMMAND ${CMAKE_COMMAND} -E env "CMAKE_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_MAKE_PROGRAM} CFLAGS="-z noexecstack"
 #     INSTALL_COMMAND ${CMAKE_COMMAND} -E env "CMAKE_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_MAKE_PROGRAM} install
@@ -51,6 +54,7 @@ ExternalProject_Add( gm2calc
     PREFIX GM2Calc-2.0.0
     URL https://github.com/GM2Calc/GM2Calc/archive/v2.0.0.tar.gz
     DOWNLOAD_EXTRACT_TIMESTAMP NEW
+    UPDATE_COMMAND ""
     BUILD_COMMAND ${CMAKE_COMMAND} -E env "CMAKE_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_MAKE_PROGRAM}
     INSTALL_COMMAND ""
 )
