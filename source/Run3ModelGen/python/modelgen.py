@@ -119,17 +119,17 @@ class ModelGenerator:
             
         return None
             
-    def run_step(self, modelnum: int, **kwargs) -> None:
-        '''Function decorator for exectuting run_* function.'''
+    def run_step(self, modelnum: int, **kwargs) -> bool:
+        '''Function decorator for exectuting run_* function. Returns success bool.'''
         step_name = kwargs['name']
         
         # Select run_ function based on step name
         if hasattr(self, f"run_{step_name}") and callable(func := getattr(self, f"run_{step_name}")):
-            func(modelnum, **kwargs)
+            return func(modelnum, **kwargs)
         else:
             raise KeyError(f"step {step_name} not supported!")
     
-    def run_prep_input(self, modelnum: int, **kwargs) -> str:
+    def run_prep_input(self, modelnum: int, **kwargs) -> bool:
         '''Prep input. Returns the filename of the prepped file.'''
         
         rawfile = pyslha.read(self.rawfilen, ignorenomass = True)
@@ -162,35 +162,42 @@ class ModelGenerator:
         preppedfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.slha" 
         pyslha.write(preppedfile, rawfile)
         
-        return None
+        return True
     
-    def run_SPheno(self, modelnum: int, **kwargs):
-        '''Run SPheno and re-add input blocks to output file. Relevant for running tools on output file.'''
+    def run_SPheno(self, modelnum: int, **kwargs) -> bool:
+        '''Run SPheno and return True if successful. Re-add input blocks to output file if successful. Relevant for running tools on output file.'''
         
         infile = f"{self.scan_dir}/{kwargs['input_dir']}/{modelnum}.slha"
         outfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.slha"
         logfile = f"{self.scan_dir}/{kwargs['log_dir']}/{modelnum}.log"
+        success = False
         
         # run SPheno
         os.system(f"SPheno {infile} {outfile} &> {logfile}")
+
+        # Check logfile to check if successful
+        with open(logfile, 'r') as file: loglines = file.read()
+        if not "There has been a problem during the run." in loglines.strip(): success = True
         
         # Re-add input blocks needed for other tools since SPheno swallows them:
-        addinputblocks(infile=outfile, blocksfile=self.rawfilen)
+        if success: addinputblocks(infile=outfile, blocksfile=self.rawfilen)
         
-        return None
+        return success
     
-    def run_softsusy(self, modelnum: int, **kwargs) -> None:
-        '''Run softsusy.'''
+    def run_softsusy(self, modelnum: int, **kwargs) -> bool:
+        '''Run softsusy and return True if successful.'''
         
         infile = f"{self.scan_dir}/{kwargs['input_dir']}/{modelnum}.slha"
         outfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.slha"
+        success = False
         
-        os.system(f"softpoint.x leshouches < {infile} &> {outfile}")
+        retcode = os.system(f"softpoint.x leshouches < {infile} &> {outfile}")
+        if retcode == 0: success = True
         
-        return None
+        return success
     
-    def run_micromegas(self, modelnum: int, **kwargs) -> None:
-        '''Run micromegas.'''
+    def run_micromegas(self, modelnum: int, **kwargs) -> bool:
+        '''Run micromegas and return True if successful.'''
         
         infile = f"{self.scan_dir}/{kwargs['input_dir']}/{modelnum}.slha"
         outfile_raw = f"{self.scan_dir}/{kwargs['output_dir']}_raw/{modelnum}.out"
@@ -200,25 +207,27 @@ class ModelGenerator:
         os.system(f"main {infile} > {outfile_raw}")
         
         # Extract values into outfile
-        microextract(infilen = outfile_raw, outfilen = outfile)
+        success = microextract(infilen = outfile_raw, outfilen = outfile)
         
-        return None
+        return success
     
-    def run_superiso(self, modelnum: int, **kwargs) -> None:
-        '''Run superiso.'''
+    def run_superiso(self, modelnum: int, **kwargs) -> bool:
+        '''Run superiso and return True if successful.'''
         
         infile = f"{self.scan_dir}/{kwargs['input_dir']}/{modelnum}.slha"
         outfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.flha"
+        success = False
         
         # Run superiso and pipe humanly readable output into null
         os.system(f"slha.x {infile} &>/dev/null")
         # Move the auto-generated output file into the right location
-        os.system(f"mv output.flha {outfile}")
+        retcode = os.system(f"mv output.flha {outfile} &>/dev/null")
+        if retcode == 0: success = True
         
-        return None
+        return success
     
-    # def run_feynhiggs(self, modelnum: int, **kwargs) -> None:
-    #     '''Run FeynHiggs.'''
+    # def run_feynhiggs(self, modelnum: int, **kwargs) -> bool:
+    #     '''Run FeynHiggs and return True if successful.'''
         
     #     infile = f"{self.scan_dir}/{kwargs['input_dir']}/{modelnum}.slha"
     #     outfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.slha"
@@ -227,34 +236,38 @@ class ModelGenerator:
     #     # Run superiso and pipe humanly readable output into null
     #     os.system(f"slha.x {infile} {outfile} > {logfile}")
         
-    #     return None
+    #     return None # NEEDS FIXING
     
-    def run_gm2calc(self, modelnum: int, **kwargs) -> None:
-        '''Run GM2Calc.'''
+    def run_gm2calc(self, modelnum: int, **kwargs) -> bool:
+        '''Run GM2Calc and return True if successful.'''
         
         infile = f"{self.scan_dir}/{kwargs['input_dir']}/{modelnum}.slha"
         outfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.slha"
+        success = False
         
         # Run superiso and pipe humanly readable output into null
-        os.system(f"gm2calc.x --slha-input-file={infile} > {outfile}")
+        retcode = os.system(f"gm2calc.x --slha-input-file={infile} > {outfile}")
+        if retcode == 0: success = True
         
-        return None
+        return success
     
-    def run_evade(self, modelnum: int, **kwargs) -> None:
-        '''Run EVADE.'''
+    def run_evade(self, modelnum: int, **kwargs) -> bool:
+        '''Run EVADE and return True if successful.'''
         
         infile = f"{self.scan_dir}/{kwargs['input_dir']}/{modelnum}.slha"
         outfile = f"{self.scan_dir}/{kwargs['output_dir']}/{modelnum}.tsv"
         evade_conffile = f"{self.scan_dir}/{kwargs['output_dir']}_config/{modelnum}.cfg"
         evade_infile = f"{self.scan_dir}/{kwargs['output_dir']}_evade_in/{modelnum}.in"
+        success = False
         
         # Convert .slha file into EVADE compatible input
         convert_slha(infile, evade_infile, evade_conffile, outfile)
         
         # Run evade and pipe humanly readable output into null
-        os.system(f"EVADE_MSSM {evade_conffile} &>/dev/null")
+        retcode = os.system(f"EVADE_MSSM {evade_conffile} &>/dev/null")
+        if retcode == 0: success = True
         
-        return None
+        return success
     
     def generate_models(self) -> None:
         '''Main function to generate models.'''
@@ -282,12 +295,20 @@ class ModelGenerator:
         else:
             raise ValueError(f"ERROR: prior {self.prior} not supported. Can only be flat.")
         
+        # prep dict to keep track of successes:
+        succcounts = {}
+        for step in self.steps:
+            succcounts[step['name']] = 0
+        
         for mod in range(self.num_models):
             log.info(f"Generating Model: {mod}.slha ({mod+1}/{self.num_models})")
             
             for step in self.steps:
                 log.info(f"\trunning step: {step['name']}")
-                self.run_step(modelnum=mod, **step)
+                success = self.run_step(modelnum=mod, **step)
+                
+                # Keep track of successes
+                if success: succcounts[step['name']] += 1
          
         # Dump scan config in scan_dir
         with open(f"{self.scan_dir}/scan_config.yaml", "w") as file:
@@ -295,7 +316,9 @@ class ModelGenerator:
             dumpdict = {key: value for key, value in vars(self).items() if key not in skipkeys}
             yaml.dump(dumpdict, file, default_flow_style=None, encoding=None)
                 
-        log.info("Finished generating models!")
+        log.info("Finished generating models! Stats for successful generations (successful/attempted):")
+        for step in succcounts:
+            log.info(f"\t{step}: {succcounts[step]}/{self.num_models}.")
         
         return None
     

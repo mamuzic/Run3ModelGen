@@ -703,7 +703,9 @@ def categorize(df, kind, tol=1e-3):
 """
 
 def LoadModel(inputslha='spcfiles/sps1a.spc', outputconfig="test_local.csv"):
-    d = pyslha.read(inputslha)
+    try:
+        d = pyslha.read(inputslha)
+    except: return False
     d.blocks['MODSEL']
     model_dict = {}
     model_dict["MINPAR_3"]   = d.blocks["MINPAR"][3]
@@ -846,6 +848,8 @@ def LoadModel(inputslha='spcfiles/sps1a.spc', outputconfig="test_local.csv"):
     
     model_df = pd.DataFrame(model_dict, index=[0])
     model_df.to_csv(outputconfig, sep ='\t')
+    
+    return True
 
 
 def DumpConfigFile(createConfigFile, input_slha_convert, output_file):
@@ -869,12 +873,18 @@ def DumpConfigFile(createConfigFile, input_slha_convert, output_file):
     text_file.close()
 
 
-def convert_slha(input_slha, evade_infile, evade_conffile, outfile):
+def convert_slha(input_slha, evade_infile, evade_conffile, outfile) -> bool:
     modelName = input_slha.split('/')[-1]
     modelName = modelName.split('.')[0]
     # print(modelName)
     
     #LoadModel(input_slha, outputconfig = modelName+'.in' )
     #DumpConfigFile(createConfigFile = modelName+'.cfg', input_slha_convert = modelName+'.in', output_file = modelName+'.tsv')
-    LoadModel(input_slha, outputconfig = evade_infile )
+    success = LoadModel(input_slha, outputconfig = evade_infile )
+    
+    if not success:
+        return success
+    
     DumpConfigFile(createConfigFile = evade_conffile, input_slha_convert = evade_infile, output_file = outfile)
+    
+    return True

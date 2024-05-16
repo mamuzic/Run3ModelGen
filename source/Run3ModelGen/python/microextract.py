@@ -2,8 +2,8 @@
 
 import os
 
-def microextract(infilen: str, outfilen: str) -> None:
-    '''Function for extracting micromegas values from infilen into outfilen.'''
+def microextract(infilen: str, outfilen: str) -> bool:
+    '''Function for extracting micromegas values from infilen into outfilen. Returns success code'''
     
     varlist = ["deltartho","gmuon","bsgnlo","bsgnlo_SM","bsmumu","btaunu","bmunu","Rl23","Xf","Omega","Omega2"]
     correctline = False
@@ -44,3 +44,7 @@ def microextract(infilen: str, outfilen: str) -> None:
         #newfile.write("ERROR: No values have been found!")
         newfile.close()
         os.remove(newfile.name)
+        
+        return False
+    
+    else: return True

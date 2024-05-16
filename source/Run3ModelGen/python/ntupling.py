@@ -802,7 +802,10 @@ def readModel(inputDefinitions: list[tuple], num: int, scanDir: str, outName: st
         # read file using csv reader or readSLHA depending on inputDef
         if not os.access(fileName,os.R_OK): continue
         if inputDef[3] is not None: 
-            readSLHA(fileName, data, prefix, blocks, decays, needsMass, isGMSB)
+            try: 
+                readSLHA(fileName, data, prefix, blocks, decays, needsMass, isGMSB)
+            except:
+                pass
         else: 
             myData=csvReader.read(fileName)
             for col in myData:
