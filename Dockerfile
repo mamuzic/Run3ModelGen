@@ -25,5 +25,11 @@ RUN curl -fsSL https://pixi.sh/install.sh | bash && \
     pixi run build && \
     ls
 
+# Append pixi path and setup script to bashrc
+RUN echo "export PATH=$PATH:/root/.pixi/bin" >> ~/.bashrc && \
+    source /workdir/build/setup.sh >> ~/.bashrc
+
 # Define commands to be run when entering container
-CMD ["/bin/bash", "-c", ". ~/.bash_profile && source build/setup.sh && cd run && pixi shell"]
+CMD [ "cd run && pixi shell" ]
+
+ENTRYPOINT [ "/bin/bash", "-i", "-c" ]
