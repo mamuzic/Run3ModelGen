@@ -276,7 +276,7 @@ class ModelGenerator:
         
         # Set up directories for saving scan
         log.info(f"Setting up output directories for scan")
-        os.system(f"rm -r {self.scan_dir}")
+        os.system(f"rm -r {self.scan_dir} &>/dev/null")
         os.mkdir(self.scan_dir)
         
         for step in self.steps:
