@@ -858,7 +858,7 @@ def DumpConfigFile(createConfigFile, input_slha_convert, output_file):
     
     text_file.write("EVADE:"+ "\n")
     text_file.write("{"+ "\n")
-    text_file.write("   input = \"./" + input_slha_convert + "\""+ "\n")
+    text_file.write("   input = \"" + input_slha_convert + "\""+ "\n")
     text_file.write("   output = \"" + output_file + "\""+ "\n")
     text_file.write("   outputType = \"stability\""+ "\n")
     text_file.write("   StationarityConditions:"+ "\n")
