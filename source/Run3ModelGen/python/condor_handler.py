@@ -58,7 +58,7 @@ log = {self.condor_dir}/outfiles/genmodels.$(ClusterId).$(ProcId).log
 transfer_output_files = ""
 RequestCpus = 4
 RequestDisk = 700000
-+JobFlavour = "espresso"
++JobFlavour = "tomorrow"
 +MaxRuntime = 604800
 queue {self.num_jobs}"""
 

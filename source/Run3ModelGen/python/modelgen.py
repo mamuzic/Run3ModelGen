@@ -45,6 +45,11 @@ class ModelGenerator:
             else:                
                 setattr(self, key, defaultval)
         
+        # Check if too many models supplied
+        if self.num_models > 10000:
+            log.fatal(f"num_models too large! Please reduce to max 10,000 and split into multiple jobs using subCondor.py!")
+            exit()
+        
         # Set numpy seed:
         np.random.seed(self.seed)
         
