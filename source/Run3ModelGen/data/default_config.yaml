@@ -1,4 +1,3 @@
-scan_dir: scan
 prior: flat
 num_models: 3
 isGMSB: False

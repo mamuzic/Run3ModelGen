@@ -18,10 +18,8 @@ structlog.stdlib.recreate_defaults()  # so we have logger names
 
 class ModelGenerator:
     '''Class for Model Generation.'''
-    def __init__(self, config_file: str = None, seed: int = 123) -> None:
+    def __init__(self, config_file: str = None, scan_dir: str = f"scan", seed: int = 123) -> None:
         '''Initialise scan.'''
-        
-        print(structlog.get_config()["processors"])
         
         # Print logo. Note: ASCII art generated with https://patorjk.com/software/taag/ (Small, Fitted)
         with open(f"{datadir}/logo.txt", 'r') as file:
@@ -29,6 +27,7 @@ class ModelGenerator:
         print(logo)
         
         self.config_file = config_file
+        self.scan_dir = scan_dir
         self.rawfilen = f"{datadir}/raw.slha"
         self.seed = seed
         self.points = {}
@@ -277,16 +276,16 @@ class ModelGenerator:
         # Set up directories for saving scan
         log.info(f"Setting up output directories for scan")
         os.system(f"rm -r {self.scan_dir} &>/dev/null")
-        os.mkdir(self.scan_dir)
+        os.makedirs(self.scan_dir)
         
         for step in self.steps:
             dirns = ['output_dir', 'log_dir']
             for dirn in dirns:
-                if dirn in step: os.mkdir(f"{self.scan_dir}/{step[dirn]}")
-                if dirn in step and "micromegas" in step['name']: os.mkdir(f"{self.scan_dir}/{step[dirn]}_raw")
+                if dirn in step: os.makedirs(f"{self.scan_dir}/{step[dirn]}")
+                if dirn in step and "micromegas" in step['name']: os.makedirs(f"{self.scan_dir}/{step[dirn]}_raw")
                 if dirn in step and "evade" in step['name']: 
-                    os.mkdir(f"{self.scan_dir}/{step[dirn]}_config")
-                    os.mkdir(f"{self.scan_dir}/{step[dirn]}_evade_in")
+                    os.makedirs(f"{self.scan_dir}/{step[dirn]}_config")
+                    os.makedirs(f"{self.scan_dir}/{step[dirn]}_evade_in")
         
         if self.prior == 'flat':
             self.sample_flat()
