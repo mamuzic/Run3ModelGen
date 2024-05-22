@@ -825,7 +825,14 @@ def mkntuple(steps: dict, scan_dir: str, num_models: int, isGMSB: bool) -> None:
     '''Function for generating ntuple for directory scan_dir with num_models using uproot.'''
     log.info(f"Will make NTuple for: {scan_dir}, with {num_models} models")
     
-    outName = f"{scan_dir}/example.0.0.root"
+    # Get output file name from scan_dir if possible
+    if len(scan_dir.split('/')[-1].split('.')) == 3:
+        ClusterId = scan_dir.split('/')[-1].split('.')[1]
+        ProcId = scan_dir.split('/')[-1].split('.')[2]
+        outName = f"{scan_dir}/ntuple.{ClusterId}.{ProcId}.root"
+    else:
+        outName = f"{scan_dir}/ntuple.0.0.root"
+    
     file = uproot.recreate(outName)
     
     # Build inputDefinitions from steps dict

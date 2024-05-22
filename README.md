@@ -13,6 +13,7 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
 - [On startup](#on-startup)
 - [Running](#running)
   - [Changing the scan configuration](#changing-the-scan-configuration)
+  - [Submitting batch jobs to HTCondor](#submitting-batch-jobs-to-htcondor)
   - [Fixing the parameter points](#fixing-the-parameter-points)
 - [FAQ](#faq)
   - [Adding software/updating the software version](#adding-softwareupdating-the-software-version)
@@ -169,6 +170,17 @@ steps:
     output_dir: evade
     prefix: EV
 ```
+
+## Submitting batch jobs to HTCondor
+
+For larger scans, parallel jobs can be submitted with:
+```bash
+subCondor.py --config myconfig.yaml --condor_dir condorlogdir --num_jobs 42 
+```
+
+This will automatically submit `num_jobs` to the HTCondor batch system, while storing the relevant outputs in `condorlogdir`. Please note that since each config file contains `num_models` models, this will overall result in `num_jobs` x `num_models` attempted models.
+
+The output .tar ball containing all models and the corresponding ntuple will automatically be stored in `$EOSPATH`, which is automatically defined during compilation in `build/setup.sh`.
 
 ## Fixing the parameter points
 

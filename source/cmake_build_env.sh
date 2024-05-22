@@ -33,8 +33,9 @@ cp $source_dir/setup.sh $build_dir
 # Activate custom error handling
 trap 'handle_error' ERR
 
-# Create build dir
+# Create build dir and EOS dirs
 mkdir $build_dir/Run3ModelGen 2>/dev/null
+mkdir -p /eos/user/$(whoami | head -c 1)/$(whoami)/Run3ModelGen 2>/dev/null
 
 # Link python modules in build
 ln -s $source_dir/Run3ModelGen/python/* $build_dir/Run3ModelGen/ 2>/dev/null
@@ -52,3 +53,4 @@ echo 'export PATH="'${build_dir}'/GM2Calc-2.0.0/src/gm2calc-build/bin/:$PATH"' >
 echo 'export PATH="'${build_dir}'/EVADE-0.2.0/src/evade-build/:$PATH"' >> $build_dir/setup.sh
 echo 'export PYTHONPATH="'${build_dir}':$PYTHONPATH"' >> $build_dir/setup.sh
 echo 'export DATAPATH="'${source_dir}/Run3ModelGen/data':$DATAPATH"' >> $build_dir/setup.sh
+echo 'export EOSPATH="/eos/user/'$(whoami | head -c 1)/$(whoami)'/Run3ModelGen"' >> $build_dir/setup.sh
