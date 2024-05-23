@@ -7,6 +7,7 @@ import re
 import uproot
 import awkward
 import yaml
+import tarfile
 
 import structlog
 import logging
@@ -62,37 +63,84 @@ class ModelExtractor:
         # Use ProcId as subdirectory name
         ProcId = self.root_file.split('.')[-2]
         
+        # Determine if scan_dir is tarfile
+        try: istar = tarfile.is_tarfile(self.scan_dir)
+        except: istar = False
+        
+        # Set up extraction for tarfile/regular directory
+        if istar:
+            log.info(f"Scan dir {self.scan_dir} is .tar ball! Will extract files from it...")
+        
+            # Open tar file 
+            tar = tarfile.open(self.scan_dir, "r:gz")
+        
+            # Get list of subdirs to check, as well as list of file extentions
+            subdirlist = []
+            suffixlist = []
+            
+            subdir = "dummystr"
+            for member in tar.getmembers():
+                if '/' in member.name and member.isdir():
+                    subdir = member.name.split("/")[1]
+                    subdirlist += [subdir,]
+                elif member.isdir():
+                    tarbase = member.name
+                elif subdir in member.name and not member.isdir():
+                    suffix = member.name.split('.')[-1]
+                    suffixlist += [suffix,]
+                    subdir = "dummystr"
+            
+            # Get output directory name   
+            scanoutdir = self.scan_dir.split('/')[-1].split('.')[1]
+        
+        else:
+            log.info(f"Scan dir {self.scan_dir} is regular directory! Wil extract files from it...")
+            
+            # Get list of subdirs to check, as well as list of file extentions
+            subdirlist = [subdir for subdir in os.listdir(self.scan_dir) if os.path.isdir(f"{self.scan_dir}/{subdir}")]
+            suffixlist = [os.listdir(f"{self.scan_dir}/{subdir}")[0].split('.')[-1] for subdir in subdirlist]
+            
+            # Get output directory name
+            scanoutdir = self.scan_dir.split('/')[-1]
+        
         # Create output directory
-        outdir = f"{os.environ['EOSPATH']}/SelectedModels/{self.scan_dir}/Models"
+        outdir = f"{os.environ['EOSPATH']}/SelectedModels/{scanoutdir}/Models"
         try: os.makedirs(outdir)
         except: log.warning(f"Output directory {outdir} already exists. Please make sure that this is intended!")
         
         # Dump options in output dir
-        with open(f"{os.environ['EOSPATH']}/SelectedModels/{self.scan_dir}/extractor_flags.yaml", "w") as file:
-            log.info(f"Dumping extractor flags in {os.environ['EOSPATH']}/SelectedModels/{self.scan_dir}/extractor_flags.yaml")
+        with open(f"{os.environ['EOSPATH']}/SelectedModels/{scanoutdir}/extractor_flags.yaml", "w") as file:
+            log.info(f"Dumping extractor flags in {os.environ['EOSPATH']}/SelectedModels/{scanoutdir}/extractor_flags.yaml")
             skipkeys = ['modarr']
             dumpdict = {key: value for key, value in vars(self).items() if key not in skipkeys}
             yaml.dump(dumpdict, file, default_flow_style=False)
             
         # Loop over subdirectories
-        for subdir in os.listdir(self.scan_dir):
-            if os.path.isdir(f"{self.scan_dir}/{subdir}"):
+        for i in range(len(subdirlist)):
+            subdir = subdirlist[i]
+            suffix = suffixlist[i]
                 
-                destindir = f"{outdir}/{subdir}/{ProcId}"
+            destindir = f"{outdir}/{subdir}/{ProcId}"
+            
+            log.info(f"Filling dir: {destindir}/")
+            
+            # Create subdir in outdir if it does not yet exist
+            try: os.makedirs(f"{destindir}")
+            except: pass
+            
+            # Use modarr to move files to output dir
+            for modid in self.modarr:
+                modid = int(modid)
                 
-                log.info(f"Filling dir: {destindir}/")
+                # Extract file contents if tar file supplied, copy file otherwise
+                if istar:
+                    extfile = tar.extractfile(f"{tarbase}/{subdir}/{modid}.{suffix}")
+                    with open(f"{destindir}/{modid}.{suffix}", "wb+") as selfile: 
+                        for line in extfile: selfile.write(line)
                 
-                # Create subdir in outdir if it does not yet exist
-                try: os.makedirs(f"{destindir}")
-                except: pass
-                
-                # Get file extention name
-                suffix = os.listdir(f"{self.scan_dir}/{subdir}")[0].split('.')[-1]
-                
-                # Use modarr to move files to output dir
-                for modid in self.modarr:
-                    modid = int(modid)
-                    
+                else:
                     os.system(f"cp {self.scan_dir}/{subdir}/{modid}.{suffix} {destindir}")
+        
+        if istar: tar.close()
         
         return None

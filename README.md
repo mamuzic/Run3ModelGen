@@ -15,6 +15,8 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
   - [Changing the scan configuration](#changing-the-scan-configuration)
   - [Submitting batch jobs to HTCondor](#submitting-batch-jobs-to-htcondor)
   - [Selecting interesting models](#selecting-interesting-models)
+    - [From scan directories](#from-scan-directories)
+    - [From .tar balls directly](#from-tar-balls-directly)
   - [Fixing the parameter points](#fixing-the-parameter-points)
 - [FAQ](#faq)
   - [Adding software/updating the software version](#adding-softwareupdating-the-software-version)
@@ -185,6 +187,8 @@ The output .tar ball containing all models and the corresponding ntuple will aut
 
 ## Selecting interesting models
 
+### From scan directories
+
 Interesting models can be extracted from a scan directory with e.g.
 ```bash
 extractModels.py --scan_dir scan --root_file scan/ntuple.0.0.root --selection "(akarr['SS_m_h']!=-1) & (akarr['SS_m_h'] <= 130)"
@@ -195,6 +199,13 @@ where `--scan_dir` and `--root_file` are required arguments. The resulting set o
 Here, `<scan_dir>` is the argument supplied to `--scan_dir` (here: `scan`), `<subdir>` the sub-directory for the respective model generation step (e.g. `softsusy`) and `<ProcId>` the number indicated in the NTuple name before the suffix, i.e. `ntuple.XYZ.<ProcId>.root` (here: `0`).
 
 Please note that as of now, the selection has to be supplied in a format that can be used to mask awkward arrays. Feel free to let me know if this causes any issues for you!
+
+### From .tar balls directly
+
+`extractModels.py` can take `.tar` balls as input, so there is no need to un-tar a scan directory before running. This can be done by calling e.g.
+```bash
+extractModels.py --scan_dir /eos/user/j/jwuerzin/Run3ModelGen/15280231/0/scan.15280231.0.tar.gz --root_file /eos/user/j/jwuerzin/Run3ModelGen/15280231/0/ntuple.15280231.0.root --selection "akarr['SP_m_h'] < 125."
+```
 
 ## Fixing the parameter points
 
