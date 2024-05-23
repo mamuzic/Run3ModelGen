@@ -45,12 +45,14 @@ class ModelExtractor:
             # Get akarrray using keys defined above
             akarr = tree.arrays(keys, library="ak")
             
-            # Create & apply mask from selections
-            mask = eval(self.selection)
-            akarr = akarr[mask]
-            
-            # Set array with model IDs as class attribute
-            self.modarr = akarr['model']
+        # Create & apply mask from selections
+        mask = eval(self.selection)
+        num_models = len(akarr)
+        akarr = akarr[mask]
+        
+        # Set array with model IDs as class attribute
+        self.modarr = akarr['model']
+        log.info(f"Found {len(self.modarr)}/{num_models} models passing selection.")
         
         return None
     
