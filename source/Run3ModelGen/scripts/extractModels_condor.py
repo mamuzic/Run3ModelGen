@@ -10,11 +10,11 @@ from Run3ModelGen.condor_handler import CondorHandler
 @click.option('--num_jobs', default=None, type=int, help='Number of batch jobs to submit. Will extract all subdirs if not supplied.')
 @click.option('--flavour', default="tomorrow", type=str, help='JobFlavour for condor jobs. Use "espresso" for testing.')
 @click.option('--force', is_flag=True, type=bool, help='Force overriding condor_dir.')
-def main(eos_dir, condor_dir, selection, num_jobs, force):
+def main(eos_dir, condor_dir, selection, num_jobs, flavour, force):
     '''Main script for submitting condor jobs for model generation.'''
 
     # Initialise CondorHandler for handling submission
-    handler = CondorHandler(mode="extractModels", eos_dir=eos_dir, condor_dir=condor_dir, selection=selection, num_jobs=num_jobs, force=force)
+    handler = CondorHandler(mode="extractModels", eos_dir=eos_dir, condor_dir=condor_dir, selection=selection, num_jobs=num_jobs, flavour=flavour, force=force)
     
     # Generate submission files
     handler.prep_subfile()
