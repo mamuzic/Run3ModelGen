@@ -24,7 +24,6 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
   - [Fixing the parameter points](#fixing-the-parameter-points)
   - [Gaps in the scan ranges](#gaps-in-the-scan-ranges)
   - [pixi](#pixi-1)
-  - [More](#more)
 
 # Targets
 - [x] Move from shell scripts to Makefile structure for building
@@ -226,6 +225,8 @@ The HTCondor job flavour can be changed using the `--flavour` flag.
 
 # FAQ
 
+More will follow soon. In the meantime, if you have any questions at all, please contact jonas.wuerzinger@cern.ch.
+
 ## Adding software/updating the software version
 
 Unfortunately, most software included here uses in-source-builds exclusively. I have taken notes on how I added the different software in this cmake workflow in:
@@ -289,7 +290,3 @@ pixi shell
 ```
 
 Please refrain from editing the `pixi.lock` file directly!
-
-## More
-
-More will follow soon. In the meantime, if you have any questions at all, please contact jonas.wuerzinger@cern.ch.
