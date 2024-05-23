@@ -13,13 +13,15 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
 - [On startup](#on-startup)
 - [Running](#running)
   - [Changing the scan configuration](#changing-the-scan-configuration)
-  - [Submitting batch jobs to HTCondor](#submitting-batch-jobs-to-htcondor)
-  - [Selecting interesting models](#selecting-interesting-models)
+  - [Extracting interesting models](#extracting-interesting-models)
     - [From scan directories](#from-scan-directories)
     - [From .tar balls directly](#from-tar-balls-directly)
-  - [Fixing the parameter points](#fixing-the-parameter-points)
+  - [HTCondor](#htcondor)
+    - [Generating models](#generating-models)
+    - [Extracting models](#extracting-models)
 - [FAQ](#faq)
   - [Adding software/updating the software version](#adding-softwareupdating-the-software-version)
+  - [Fixing the parameter points](#fixing-the-parameter-points)
   - [Gaps in the scan ranges](#gaps-in-the-scan-ranges)
   - [pixi](#pixi-1)
   - [More](#more)
@@ -174,18 +176,7 @@ steps:
     prefix: EV
 ```
 
-## Submitting batch jobs to HTCondor
-
-For larger scans, parallel jobs can be submitted with:
-```bash
-subCondor.py --config myconfig.yaml --condor_dir condorlogdir --num_jobs 42 
-```
-
-This will automatically submit `num_jobs` to the HTCondor batch system, while storing the relevant outputs in `condorlogdir`. Please note that since each config file contains `num_models` models, this will overall result in `num_jobs` x `num_models` attempted models.
-
-The output .tar ball containing all models and the corresponding ntuple will automatically be stored in `$EOSPATH`, which is automatically defined during compilation in `build/setup.sh`.
-
-## Selecting interesting models
+## Extracting interesting models
 
 ### From scan directories
 
@@ -207,6 +198,42 @@ Please note that as of now, the selection has to be supplied in a format that ca
 extractModels.py --scan_dir /eos/user/j/jwuerzin/Run3ModelGen/15280231/0/scan.15280231.0.tar.gz --root_file /eos/user/j/jwuerzin/Run3ModelGen/15280231/0/ntuple.15280231.0.root --selection "akarr['SP_m_h'] < 125."
 ```
 
+## HTCondor
+
+### Generating models
+
+For larger scans, parallel jobs can be submitted with:
+```bash
+genModels_condor.py --config myconfig.yaml --condor_dir condorlogdir --num_jobs 42 
+```
+
+This will automatically submit `num_jobs` to the HTCondor batch system, while storing the relevant outputs in `condorlogdir`. Please note that since each config file contains `num_models` models, this will overall result in `num_jobs` x `num_models` attempted models.
+
+The output .tar ball containing all models and the corresponding ntuple will automatically be stored in `$EOSPATH`, which is automatically defined during compilation in `build/setup.sh`.
+
+The HTCondor job flavour can be changed using the `--flavour` flag.
+
+### Extracting models
+
+Models produced with HTCondor can also be extracted with batch jobs. To do so, call e.g.:
+```bash
+extractModels_condor.py --eos_dir /eos/user/j/jwuerzin/Run3ModelGen/15280231 --selection "akarr['SP_m_h'] < 125."
+```
+
+The output `Models` directory can be fed into the pMSSMFactory directly and is stored in `$EOSPATH/SelectedModels/<ClusterId>/`. The corresponding config .yaml file is also stored there.
+
+The HTCondor job flavour can be changed using the `--flavour` flag.
+
+# FAQ
+
+## Adding software/updating the software version
+
+Unfortunately, most software included here uses in-source-builds exclusively. I have taken notes on how I added the different software in this cmake workflow in:
+- [doc/spheno_build](doc/spheno_build.md)
+- [doc/softsusy_build](doc/softsusy_build.md)
+- [doc/micromegas_build](doc/micromegas_build.md)
+- [doc/superiso_build](doc/superiso_build.md)
+
 ## Fixing the parameter points
 
 To generate models with fixed parameters, simply supply a config file with a `fixed` prior, while supplying the parameters in a list. The example below will generate two models:
@@ -219,16 +246,6 @@ parameters:
   M_2: [-111, 20]
 ...
 ```
-
-# FAQ
-
-## Adding software/updating the software version
-
-Unfortunately, most software included here uses in-source-builds exclusively. I have taken notes on how I added the different software in this cmake workflow in:
-- [doc/spheno_build](doc/spheno_build.md)
-- [doc/softsusy_build](doc/softsusy_build.md)
-- [doc/micromegas_build](doc/micromegas_build.md)
-- [doc/superiso_build](doc/superiso_build.md)
 
 ## Gaps in the scan ranges
 
