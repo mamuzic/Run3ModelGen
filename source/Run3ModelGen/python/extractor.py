@@ -23,7 +23,7 @@ class ModelExtractor:
             logo = "\n"+file.read()+"\n"
         print(logo)
         
-        self.scan_dir = scan_dir
+        self.scan_dir = scan_dir if not scan_dir.endswith('/') else scan_dir[:-1]
         self.root_file = root_file
         self.selection = selection
         
@@ -94,7 +94,7 @@ class ModelExtractor:
             scanoutdir = self.scan_dir.split('/')[-1].split('.')[1]
         
         else:
-            log.info(f"Scan dir {self.scan_dir} is regular directory! Wil extract files from it...")
+            log.info(f"Scan dir {self.scan_dir} is regular directory! Will extract files from it...")
             
             # Get list of subdirs to check, as well as list of file extentions
             subdirlist = [subdir for subdir in os.listdir(self.scan_dir) if os.path.isdir(f"{self.scan_dir}/{subdir}")]
@@ -136,9 +136,12 @@ class ModelExtractor:
                 
                 # Extract file contents if tar file supplied, copy file otherwise
                 if istar:
-                    extfile = tar.extractfile(f"{tarbase}/{subdir}/{modid_pre}.{suffix}")
-                    with open(f"{destindir}/{modid}.{suffix}", "wb+") as selfile: 
-                        for line in extfile: selfile.write(line)
+                    try:
+                        extfile = tar.extractfile(f"{tarbase}/{subdir}/{modid_pre}.{suffix}")
+                        with open(f"{destindir}/{modid}.{suffix}", "wb+") as selfile: 
+                            for line in extfile: selfile.write(line)
+                    except:
+                        log.warning(f"File {tarbase}/{subdir}/{modid_pre}.{suffix} not found!")
                 
                 else:
                     os.system(f"cp {self.scan_dir}/{subdir}/{modid_pre}.{suffix} {destindir}/{modid}.{suffix}")
