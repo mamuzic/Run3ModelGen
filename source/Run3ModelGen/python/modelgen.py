@@ -13,8 +13,9 @@ from Run3ModelGen.addinputblocks import addinputblocks
 from Run3ModelGen.pMSSM_convert import convert_slha
 
 import structlog
+import logging
 log = structlog.get_logger()
-structlog.stdlib.recreate_defaults()  # so we have logger names
+structlog.stdlib.recreate_defaults(log_level=logging.INFO)  # so we have logger names
 
 class ModelGenerator:
     '''Class for Model Generation.'''
