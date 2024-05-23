@@ -14,6 +14,7 @@ Draft repo for updated shiny pMSSM model generation. Aiming for this repo to be 
 - [Running](#running)
   - [Changing the scan configuration](#changing-the-scan-configuration)
   - [Submitting batch jobs to HTCondor](#submitting-batch-jobs-to-htcondor)
+  - [Selecting interesting models](#selecting-interesting-models)
   - [Fixing the parameter points](#fixing-the-parameter-points)
 - [FAQ](#faq)
   - [Adding software/updating the software version](#adding-softwareupdating-the-software-version)
@@ -181,6 +182,19 @@ subCondor.py --config myconfig.yaml --condor_dir condorlogdir --num_jobs 42
 This will automatically submit `num_jobs` to the HTCondor batch system, while storing the relevant outputs in `condorlogdir`. Please note that since each config file contains `num_models` models, this will overall result in `num_jobs` x `num_models` attempted models.
 
 The output .tar ball containing all models and the corresponding ntuple will automatically be stored in `$EOSPATH`, which is automatically defined during compilation in `build/setup.sh`.
+
+## Selecting interesting models
+
+Interesting models can be extracted from a scan directory with e.g.
+```bash
+extractModels.py --scan_dir scan --root_file scan/ntuple.0.0.root --selection "(akarr['SS_m_h']!=-1) & (akarr['SS_m_h'] <= 130)"
+```
+
+where `--scan_dir` and `--root_file` are required arguments. The resulting set of models can be read into the [pMSSMFactory](https://gitlab.cern.ch/atlas-phys-susy-wg/summaries/pmssm/pMSSMFactory) directly and is stored in `$EOSPATH/SelectedModels/<scan_dir>/Models/<subdir>/<ProcId>`.
+
+Here, `<scan_dir>` is the argument supplied to `--scan_dir` (here: `scan`), `<subdir>` the sub-directory for the respective model generation step (e.g. `softsusy`) and `<ProcId>` the number indicated in the NTuple name before the suffix, i.e. `ntuple.XYZ.<ProcId>.root` (here: `0`).
+
+Please note that as of now, the selection has to be supplied in a format that can be used to mask awkward arrays. Feel free to let me know if this causes any issues for you!
 
 ## Fixing the parameter points
 
