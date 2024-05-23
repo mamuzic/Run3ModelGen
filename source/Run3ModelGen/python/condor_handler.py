@@ -31,7 +31,7 @@ class CondorHandler:
             self.num_jobs = kwargs.get('num_jobs', 2)
 
         elif self.mode == "extractModels":
-            self.eos_dir = kwargs['eos_dir']
+            self.eos_dir = kwargs['eos_dir'] if not kwargs['eos_dir'].endswith('/') else kwargs['eos_dir'][:-1]
             self.ClusterId = self.eos_dir.split('/')[-1]
             self.selection = kwargs.get('selection', "akarr['SS_m_h']!=-1")
             self.num_jobs = kwargs.get('num_jobs', None)
