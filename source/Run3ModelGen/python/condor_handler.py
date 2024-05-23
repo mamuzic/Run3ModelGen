@@ -4,8 +4,9 @@ import os
 datadir = os.environ['DATAPATH'].split(':')[0]
 
 import structlog
+import logging
 log = structlog.get_logger()
-structlog.stdlib.recreate_defaults()  # so we have logger names
+structlog.stdlib.recreate_defaults(log_level=logging.INFO)  # so we have logger names
 
 class CondorHandler:
     '''Class for batch job handling.'''
