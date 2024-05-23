@@ -177,6 +177,8 @@ steps:
 
 ## Extracting interesting models
 
+Interesting models to be fed into the [pMSSMFactory](https://gitlab.cern.ch/atlas-phys-susy-wg/summaries/pmssm/pMSSMFactory) can be extracted using [extractModels.py](source/Run3ModelGen/scripts/extractModels.py). This script works both with directories and .tar balls.
+
 ### From scan directories
 
 Interesting models can be extracted from a scan directory with e.g.
@@ -201,7 +203,7 @@ extractModels.py --scan_dir /eos/user/j/jwuerzin/Run3ModelGen/15280231/0/scan.15
 
 ### Generating models
 
-For larger scans, parallel jobs can be submitted with:
+For larger scans, parallel jobs can be submitted with [genModels_condor.py](source/Run3ModelGen/scripts/genModels_condor.py):
 ```bash
 genModels_condor.py --config myconfig.yaml --condor_dir condorlogdir --num_jobs 42 
 ```
@@ -214,7 +216,7 @@ The HTCondor job flavour can be changed using the `--flavour` flag.
 
 ### Extracting models
 
-Models produced with HTCondor can also be extracted with batch jobs. To do so, call e.g.:
+Models produced with HTCondor can also be extracted with batch jobs. To do so, call [extractModels_condor.py](source/Run3ModelGen/scripts/extractModels_condor.py) with e.g.:
 ```bash
 extractModels_condor.py --eos_dir /eos/user/j/jwuerzin/Run3ModelGen/15280231 --selection "akarr['SP_m_h'] < 125."
 ```
