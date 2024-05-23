@@ -30,7 +30,8 @@ mkdir -p $EOSPATH/$ClusterId/$ProcId
 # make tar ball of scan dir
 tar -czf scan.$ClusterId.$ProcId.tar.gz scan.$ClusterId.$ProcId
 
-# copy tar ball and ntuple to EOS
+# copy tar ball, config file and ntuple to EOS
 echo "Saving results in $EOSPATH/$ClusterId/$ProcId"
 cp scan.$ClusterId.$ProcId.tar.gz $EOSPATH/$ClusterId/$ProcId
+cp scan.$ClusterId.$ProcId/*.yaml $EOSPATH/$ClusterId/
 cp scan.$ClusterId.$ProcId/ntuple.$ClusterId.$ProcId.root $EOSPATH/$ClusterId/$ProcId/
