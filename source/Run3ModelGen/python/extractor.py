@@ -130,16 +130,18 @@ class ModelExtractor:
             
             # Use modarr to move files to output dir
             for modid in self.modarr:
+                # Construct model ID before and after move
                 modid = int(modid)
+                modid_pre = modid - int(ProcId+'00000')
                 
                 # Extract file contents if tar file supplied, copy file otherwise
                 if istar:
-                    extfile = tar.extractfile(f"{tarbase}/{subdir}/{modid}.{suffix}")
+                    extfile = tar.extractfile(f"{tarbase}/{subdir}/{modid_pre}.{suffix}")
                     with open(f"{destindir}/{modid}.{suffix}", "wb+") as selfile: 
                         for line in extfile: selfile.write(line)
                 
                 else:
-                    os.system(f"cp {self.scan_dir}/{subdir}/{modid}.{suffix} {destindir}")
+                    os.system(f"cp {self.scan_dir}/{subdir}/{modid_pre}.{suffix} {destindir}/{modid}.{suffix}")
         
         if istar: tar.close()
         
