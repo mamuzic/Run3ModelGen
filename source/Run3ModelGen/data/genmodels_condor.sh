@@ -5,13 +5,14 @@
 
 export ClusterId=$1
 export ProcId=$2
-export config=$3
+export RUN3MODELGENDIR=$3
+export config=$4
 # export IsGMSBRun=$4 # TODO: Add this option!
 shift $#
 
-echo "Running with arguments: $ClusterId, $ProcId, $config"
+echo "Running with arguments: $ClusterId, $ProcId, $RUN3MODELGENDIR, $config"
 
-cd /afs/cern.ch/user/j/jwuerzin/work/pMSSMTaskforce/Run3ModelGen/
+cd $RUN3MODELGENDIR
 source build/setup.sh
 
 cd run

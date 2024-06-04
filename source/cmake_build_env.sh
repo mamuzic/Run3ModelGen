@@ -54,3 +54,4 @@ echo 'export PATH="'${build_dir}'/EVADE-0.2.0/src/evade-build/:$PATH"' >> $build
 echo 'export PYTHONPATH="'${build_dir}':$PYTHONPATH"' >> $build_dir/setup.sh
 echo 'export DATAPATH="'${source_dir}/Run3ModelGen/data':$DATAPATH"' >> $build_dir/setup.sh
 echo 'export EOSPATH="/eos/user/'$(whoami | head -c 1)/$(whoami)'/Run3ModelGen"' >> $build_dir/setup.sh
+echo 'export RUN3MODELGENDIR="'${source_dir%source}'"' >> $build_dir/setup.sh

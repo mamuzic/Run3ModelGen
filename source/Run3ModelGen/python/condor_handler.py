@@ -72,7 +72,7 @@ class CondorHandler:
             subfile_text = f"""executable = {self.condor_dir}/genmodels_condor.sh
 
 Requirements = (Machine != "b6100c26e0.cern.ch")
-arguments = $(ClusterId) $(ProcId) {confstr}
+arguments = $(ClusterId) $(ProcId) {os.environ['RUN3MODELGENDIR']} {confstr}
 output = {self.condor_dir}/outfiles/genmodels.$(ClusterId).$(ProcId).out
 error = {self.condor_dir}/outfiles/genmodels.$(ClusterId).$(ProcId).err
 log = {self.condor_dir}/outfiles/genmodels.$(ClusterId).$(ProcId).log
@@ -98,7 +98,7 @@ queue {self.num_jobs}"""
             subfile_text = f"""executable = {self.condor_dir}/extractmodels_condor.sh
 
 Requirements = (Machine != "b6100c26e0.cern.ch")
-arguments = {self.ClusterId} $(ProcId) {self.eos_dir} {self.selection}
+arguments = {self.ClusterId} $(ProcId) {os.environ['RUN3MODELGENDIR']} {self.eos_dir} {self.selection}
 output = {self.condor_dir}/outfiles/extractmodels.{self.ClusterId}.$(ProcId).out
 error = {self.condor_dir}/outfiles/extractmodels.{self.ClusterId}.$(ProcId).err
 log = {self.condor_dir}/outfiles/extractmodels.{self.ClusterId}.$(ProcId).log
