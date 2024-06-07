@@ -11,7 +11,7 @@ def main(config, scan_dir, seed):
     '''Main script for generating models according to provided config file. Will also generate root NTuple.'''
 
     # If config file is not provided, use default for initiating ModelGenerator
-    ModelGen = ModelGenerator(config, scan_dir, seed)
+    ModelGen = ModelGenerator(config_file=config, scan_dir=scan_dir, seed=seed)
     
     # Generate models and save them according to the config yaml. Note: This automatically overwrites the scan directory.
     ModelGen.generate_models()

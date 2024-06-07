@@ -11,7 +11,7 @@ def main(scan_dir, root_file, selection):
     '''Main script for submitting condor jobs for model generation.'''
 
     # Initialise ModelExtractor
-    ModExt = ModelExtractor(scan_dir, root_file, selection)
+    ModExt = ModelExtractor(scan_dir=scan_dir, root_file=root_file, selection=selection)
     
     # Select interesting models
     ModExt.select_models()
