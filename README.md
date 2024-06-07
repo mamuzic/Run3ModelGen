@@ -112,7 +112,7 @@ The script will save the created model files and the corresponding root ntuple.
 If you would like to change the scan configuration or seed, simply run
 
 ```bash
-genModels.py --config myconfig.yaml --seed 42 
+genModels.py --config_file myconfig.yaml --seed 42 
 ```
 
 where `myconfig.yaml` is your config file containing the scan configuration. If no config file is supplied, the [default config file](source/Run3ModelGen/data/default_config.yaml) will be read. All values that are missing from `myconfig.yaml` are read from the default as well.
@@ -205,7 +205,7 @@ extractModels.py --scan_dir /eos/user/j/jwuerzin/Run3ModelGen/15280231/0/scan.15
 
 For larger scans, parallel jobs can be submitted with [genModels_condor.py](source/Run3ModelGen/scripts/genModels_condor.py):
 ```bash
-genModels_condor.py --config myconfig.yaml --condor_dir condorlogdir --num_jobs 42 
+genModels_condor.py --config_file myconfig.yaml --condor_dir condorlogdir --num_jobs 42 
 ```
 
 This will automatically submit `num_jobs` to the HTCondor batch system, while storing the relevant outputs in `condorlogdir`. Please note that since each config file contains `num_models` models, this will overall result in `num_jobs` x `num_models` attempted models.
