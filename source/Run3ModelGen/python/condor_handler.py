@@ -28,6 +28,9 @@ class CondorHandler:
         
         if self.mode == "genModels":
             self.config_file = kwargs.get('config_file', None)
+            if self.config_file is not None and not os.path.isfile(self.config_file):
+                log.fatal(f"config file '{self.config_file}' does not exist or is not a file!")
+                exit()
             self.num_jobs = kwargs.get('num_jobs', 2)
 
         elif self.mode == "extractModels":
