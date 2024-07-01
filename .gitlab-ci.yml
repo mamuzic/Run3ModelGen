@@ -1,6 +1,7 @@
 stages:
   - build
-  - test
+  - genModels
+  - extractModels
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
@@ -28,17 +29,6 @@ build_local:
     expire_in: 1 week
     paths:
       - build/
-
-test_genModels:
-  extends: .install_pixi
-  stage: test
-  dependencies:
-    - build_local
-  script:
-    - pixi list
-    - ls
-    - pwd
-    - pixi run genModels
 
 build_docker:
   stage: build
@@ -69,3 +59,72 @@ build_docker:
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
       --destination "${IMAGE_DESTINATION}"
     - echo "Image pushed successfully to ${IMAGE_DESTINATION}"
+    - echo "IMAGE_DESTINATION=$IMAGE_DESTINATION" >> deploy.env
+  artifacts:
+    reports:
+      dotenv: deploy.env
+    expire_in: 1 day
+
+genModels_local:
+  extends: .install_pixi
+  stage: genModels
+  dependencies:
+    - build_local
+  script:
+    - pixi list
+    - ls
+    - pwd
+    - pixi run genModels
+  artifacts:
+    paths:
+      - run/scan
+    expire_in: 1 day
+
+genModels_docker:
+  stage: genModels
+  dependencies:
+    - build_docker
+  image: ${IMAGE_DESTINATION}
+  script:
+    # source bashrc so pixi and Run3ModelGen are setup
+    - . ~/.bashrc
+    # run test
+    - pixi list
+    - ls
+    - pwd
+    - mkdir run && cd run
+    - pixi run genModels.py
+  artifacts:
+    paths:
+      - run/scan
+    expire_in: 1 day
+
+extractModels_local:
+  extends: .install_pixi
+  stage: extractModels
+  dependencies:
+    - build_local
+    - genModels_local
+  script:
+    - pixi list
+    - ls
+    - pwd
+    - . build/setup.sh
+    - cd run
+    - pixi run extractModels.py --scan_dir scan --root_file scan/ntuple.0.0.root --selection "(akarr['SS_m_h']!=-1) & (akarr['SS_m_h'] <= 130)"
+
+extractModels_docker:
+  stage: extractModels
+  dependencies:
+    - build_docker
+    - genModels_docker
+  image: ${IMAGE_DESTINATION}
+  script:
+    # source bashrc so pixi and Run3ModelGen are setup
+    - . ~/.bashrc
+    # run test
+    - pixi list
+    - ls
+    - pwd
+    - cd run
+    - pixi run extractModels.py --scan_dir scan --root_file scan/ntuple.0.0.root --selection "(akarr['SS_m_h']!=-1) & (akarr['SS_m_h'] <= 130)"
