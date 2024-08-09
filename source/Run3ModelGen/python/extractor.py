@@ -37,8 +37,12 @@ class ModelExtractor:
         '''Select models passing selections using root_file. Returns array with model ids.'''
         
         # Get list of keys to read from NTuple to reduce comp load
-        pattern = r"\['(.*?)'\]"
-        keys = list(set(re.findall(pattern, self.selection))) + ['model']
+        if "[" in self.selection and not "['" in self.selection:
+            pattern = r"\[(.*?)\]"
+            keys = list(set(re.findall(pattern, self.selection))) + ['model']           
+        else:
+            pattern_single_quotes = r"\['(.*?)'\]"
+            keys = list(set(re.findall(pattern_single_quotes, self.selection))) + ['model']
         
         log.info("Selecting models passing selection...")
         with uproot.open(f"{self.root_file}:susy") as tree:
@@ -47,6 +51,11 @@ class ModelExtractor:
             akarr = tree.arrays(keys, library="ak")
             
         # Create & apply mask from selections
+        # Safety layer: Re-add single quotes if they are removed by accident:
+        if "[" in self.selection and not "['" in self.selection:
+            self.selection = self.selection.replace("[", "['").replace("]", "']")
+            # self.selection = "(akarr['SS_m_h']!=-1) & (akarr['SS_m_h'] <= 130)"
+        
         mask = eval(self.selection)
         num_models = len(akarr)
         akarr = akarr[mask]

@@ -24,6 +24,13 @@ cd run && \
 genModels.py'
 """
 
+extractModels = """
+bash -c '\
+. build/setup.sh && \
+cd run && \
+extractModels.py --scan_dir scan --root_file scan/ntuple.0.0.root --selection "(akarr['SS_m_h']!=-1) & (akarr['SS_m_h'] <= 130)"'
+"""
+
 clean = """
 rm -rf build && \
 rm -rf run

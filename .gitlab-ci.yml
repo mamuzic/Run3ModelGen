@@ -109,9 +109,7 @@ extractModels_local:
     - pixi list
     - ls
     - pwd
-    - . build/setup.sh
-    - cd run
-    - pixi run extractModels.py --scan_dir scan --root_file scan/ntuple.0.0.root --selection "(akarr['SS_m_h']!=-1) & (akarr['SS_m_h'] <= 130)"
+    - pixi run extractModels
 
 extractModels_docker:
   stage: extractModels
