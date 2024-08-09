@@ -54,7 +54,6 @@ class ModelExtractor:
         # Safety layer: Re-add single quotes if they are removed by accident:
         if "[" in self.selection and not "['" in self.selection:
             self.selection = self.selection.replace("[", "['").replace("]", "']")
-            # self.selection = "(akarr['SS_m_h']!=-1) & (akarr['SS_m_h'] <= 130)"
         
         mask = eval(self.selection)
         num_models = len(akarr)
