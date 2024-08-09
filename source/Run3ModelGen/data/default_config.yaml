@@ -46,7 +46,7 @@ steps:
     input_dir: SPheno
     output_dir: gm2calc
     prefix: GM2
-  - name: evade
-    input_dir: SPheno
-    output_dir: evade
-    prefix: EV
+  # - name: evade
+  #   input_dir: SPheno
+  #   output_dir: evade
+  #   prefix: EV

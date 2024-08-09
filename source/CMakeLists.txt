@@ -59,16 +59,16 @@ ExternalProject_Add( gm2calc
     INSTALL_COMMAND ""
 )
 
-# Add EVADE as ExternalProject
-ExternalProject_Add( evade
-    PREFIX EVADE-0.2.0
-    GIT_REPOSITORY https://gitlab.com/jonaswittbrodt/EVADE.git
-    DOWNLOAD_EXTRACT_TIMESTAMP NEW
-    CMAKE_ARGS -Wno-dev
-    UPDATE_COMMAND ""
-    BUILD_COMMAND ${CMAKE_COMMAND} -E env "CMAKE_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_MAKE_PROGRAM}
-    INSTALL_COMMAND ""
-)
+# # Add EVADE as ExternalProject
+# ExternalProject_Add( evade
+#     PREFIX EVADE-0.2.0
+#     GIT_REPOSITORY https://gitlab.com/jonaswittbrodt/EVADE.git
+#     DOWNLOAD_EXTRACT_TIMESTAMP NEW
+#     CMAKE_ARGS -Wno-dev
+#     UPDATE_COMMAND ""
+#     BUILD_COMMAND ${CMAKE_COMMAND} -E env "CMAKE_BINARY_DIR=${CMAKE_CURRENT_BINARY_DIR}" ${CMAKE_MAKE_PROGRAM}
+#     INSTALL_COMMAND ""
+# )
 
 # Add shell script to place all relevant files in build
 add_custom_target( Run3ModelGen
