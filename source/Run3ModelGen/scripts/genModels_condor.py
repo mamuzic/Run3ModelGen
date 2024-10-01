@@ -13,7 +13,7 @@ def main(config_file, condor_dir, num_jobs, flavour, force):
     '''Main script for submitting condor jobs for model generation.'''
 
     # Initialise CondorHandler for handling submission
-    handler = CondorHandler(mode="genModels", config_file=config, condor_dir=condor_dir, num_jobs=num_jobs, flavour=flavour, force=force)
+    handler = CondorHandler(mode="genModels", config_file=config_file, condor_dir=condor_dir, num_jobs=num_jobs, flavour=flavour, force=force)
     
     # Generate submission files
     handler.prep_subfile()
