@@ -83,7 +83,6 @@ Having installed pixi, we can use the `pixi.toml` and `pixi.lock` files to start
 
 ```bash
 pixi shell
-mkdir build
 cmake -S source -B build
 cmake --build build -j8
 source build/setup.sh
